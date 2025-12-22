@@ -8,7 +8,11 @@ import { HelloWorld } from './components/HelloWorld';
 export const App: React.FC = () => {
   return (
     <main className="app">
-      <HelloWorld />
+      <HelloWorld 
+        title="Hello World"
+        placeholder="Enter your name..."
+        greeting="Welcome"
+      />
     </main>
   );
 };

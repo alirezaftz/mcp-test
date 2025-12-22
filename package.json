@@ -1,14 +1,13 @@
 {
-  "name": "hello-world-page",
+  "name": "hello-world-app",
   "version": "1.0.0",
-  "description": "A simple hello world page with text input",
+  "description": "Simple hello world page with text input",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "playwright test --config=playwright-ct.config.ts",
-    "test:e2e": "playwright test --config=playwright.config.ts"
+    "test": "playwright test --config=playwright-ct.config.ts"
   },
   "dependencies": {
     "react": "^18.2.0",

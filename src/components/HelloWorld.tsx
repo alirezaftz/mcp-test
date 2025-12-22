@@ -1,39 +1,44 @@
 import React, { useState } from 'react';
-import '../styles/HelloWorld.css';
 
 /**
  * Props interface for HelloWorld component
  */
 export interface HelloWorldProps {
-  /** Initial greeting text to display */
-  initialGreeting?: string;
+  /** Main title text displayed at the top */
+  title: string;
   /** Placeholder text for the input field */
-  inputPlaceholder?: string;
-  /** Label text for the input field */
-  inputLabel?: string;
+  placeholder?: string;
+  /** Greeting text prefix shown before the user's input */
+  greeting?: string;
 }
 
 /**
  * HelloWorld Component
  * 
- * A simple component that displays "Hello World" heading and a text input field.
- * The input value is managed in component state and displayed back to the user.
+ * A simple component that displays a title, text input, and personalized greeting.
+ * When the user types in the input, it displays a greeting with their input.
  * 
- * @param props - Component props
- * @returns React functional component
+ * @example
+ * ```tsx
+ * <HelloWorld 
+ *   title="Hello World" 
+ *   placeholder="Enter your name..." 
+ *   greeting="Welcome"
+ * />
+ * ```
  */
-export const HelloWorld: React.FC<HelloWorldProps> = ({
-  initialGreeting = 'Hello World',
-  inputPlaceholder = 'Enter your name...',
-  inputLabel = 'Your Name',
+export const HelloWorld: React.FC<HelloWorldProps> = ({ 
+  title, 
+  placeholder = 'Type something...', 
+  greeting = 'Hello' 
 }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   /**
    * Handles input change events
-   * @param event - React change event from input element
+   * @param event - Input change event
    */
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(event.target.value);
   };
 
@@ -41,33 +46,39 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
     <section 
       className="hello-world" 
       role="region" 
-      aria-label="Hello World greeting section"
+      aria-label="Hello world section with text input"
     >
       <div className="hello-world__container">
-        <h1 className="hello-world__heading">{initialGreeting}</h1>
+        <h1 className="hello-world__title">{title}</h1>
         
         <div className="hello-world__input-group">
           <label 
             htmlFor="name-input" 
             className="hello-world__label"
           >
-            {inputLabel}
+            Enter your name:
           </label>
           <input
             id="name-input"
             type="text"
             className="hello-world__input"
-            placeholder={inputPlaceholder}
+            placeholder={placeholder}
             value={inputValue}
             onChange={handleInputChange}
-            aria-label={inputLabel}
+            aria-label="Text input for name"
           />
         </div>
 
         {inputValue && (
-          <p className="hello-world__output" role="status" aria-live="polite">
-            Hello, <span className="hello-world__output-name">{inputValue}</span>!
-          </p>
+          <div 
+            className="hello-world__greeting" 
+            role="status" 
+            aria-live="polite"
+          >
+            <p className="hello-world__greeting-text">
+              {greeting}, <span className="hello-world__greeting-name">{inputValue}</span>!
+            </p>
+          </div>
         )}
       </div>
     </section>
