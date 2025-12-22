@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.hello-world {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+}
+
+.hello-world__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hello-world__title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: #333333;
+  text-align: center;
+  font-weight: 700;
+}
+
+.hello-world__input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hello-world__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #555555;
+}
+
+.hello-world__input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 4px;
+  transition: border-color 0.2s ease;
+  font-family: inherit;
+}
+
+.hello-world__input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.hello-world__input::placeholder {
+  color: #999999;
+}
+
+.hello-world__greeting {
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  color: #4a90e2;
+  text-align: center;
+  font-weight: 600;
+  padding: 1rem;
+  background-color: #f0f7ff;
+  border-radius: 4px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .hello-world {
+    padding: 3rem;
+  }
+
+  .hello-world__content {
+    gap: 2rem;
+  }
+}

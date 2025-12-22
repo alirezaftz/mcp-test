@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import '../src/index.css';
+import { beforeMount, afterMount } from '@playwright/experimental-ct-react/hooks';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+beforeMount(async ({ App }) => {
+  console.log('beforeMount');
+});
 
-export default root;
+afterMount(async () => {
+  console.log('afterMount');
+});

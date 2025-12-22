@@ -1,100 +1,69 @@
 import React, { useState } from 'react';
-import './HelloWorld.css';
 
 /**
- * Props interface for HelloWorld component
+ * Props interface for the HelloWorld component
  */
 export interface HelloWorldProps {
   /** The main title text to display */
   title: string;
   /** Placeholder text for the input field */
   placeholder?: string;
-  /** Text for the submit button */
-  buttonText?: string;
+  /** Accessible label for the input field */
+  inputLabel: string;
 }
 
 /**
- * HelloWorld Component
- * A simple page with a title, text input, and greeting display
+ * HelloWorld component that displays a greeting and accepts text input
  * 
- * @param props - Component props
- * @returns React component
+ * @param {HelloWorldProps} props - Component properties
+ * @returns {JSX.Element} The HelloWorld component
  */
 export const HelloWorld: React.FC<HelloWorldProps> = ({
   title,
-  placeholder = 'Enter text...',
-  buttonText = 'Submit'
+  placeholder = 'Type something...',
+  inputLabel
 }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [greeting, setGreeting] = useState<string>('');
 
   /**
-   * Handles input change events
-   * @param event - Change event from input element
+   * Handles input value changes
+   * @param {React.ChangeEvent<HTMLInputElement>} event - The change event
    */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(event.target.value);
   };
 
-  /**
-   * Handles form submission
-   * @param event - Form submit event
-   */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-    if (inputValue.trim()) {
-      setGreeting(`Hello, ${inputValue}!`);
-    } else {
-      setGreeting('Hello, World!');
-    }
-  };
-
   return (
-    <section
-      className="hello-world"
-      role="region"
-      aria-label="Hello World page section"
+    <section 
+      className="hello-world" 
+      role="region" 
+      aria-label="Hello World section"
     >
       <div className="hello-world__content">
         <h1 className="hello-world__title">{title}</h1>
         
-        <form
-          className="hello-world__form"
-          onSubmit={handleSubmit}
-          aria-label="Greeting form"
-        >
-          <div className="hello-world__input-group">
-            <label htmlFor="name-input" className="hello-world__label">
-              Your Name:
-            </label>
-            <input
-              id="name-input"
-              type="text"
-              className="hello-world__input"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder={placeholder}
-              aria-label="Name input field"
-            />
-          </div>
-          
-          <button
-            type="submit"
-            className="hello-world__button"
-            aria-label="Submit greeting button"
+        <div className="hello-world__input-container">
+          <label 
+            htmlFor="hello-input" 
+            className="hello-world__label"
           >
-            {buttonText}
-          </button>
-        </form>
+            {inputLabel}
+          </label>
+          <input
+            id="hello-input"
+            type="text"
+            className="hello-world__input"
+            placeholder={placeholder}
+            value={inputValue}
+            onChange={handleInputChange}
+            aria-label={inputLabel}
+          />
+        </div>
 
-        {greeting && (
-          <div
-            className="hello-world__greeting"
-            role="status"
-            aria-live="polite"
-          >
-            {greeting}
-          </div>
+        {inputValue && (
+          <p className="hello-world__greeting" role="status" aria-live="polite">
+            Hello, {inputValue}!
+          </p>
         )}
       </div>
     </section>
