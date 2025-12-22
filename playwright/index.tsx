@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '../src/styles/main.css';
+import '../src/index.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root')!);
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
 root.render(
   <React.StrictMode>
-    <div id="app"></div>
+    <div>Playwright Component Test Harness</div>
   </React.StrictMode>
 );

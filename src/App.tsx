@@ -1,16 +1,14 @@
 import React from 'react';
 import { HelloWorld } from './components/HelloWorld';
+import './index.css';
 
 /**
- * Root App Component
+ * Main Application Component
  * 
- * Main application entry point that renders the HelloWorld component
+ * Root component that renders the HelloWorld page
  */
-export const App: React.FC = () => {
-  return (
-    <HelloWorld 
-      initialGreeting="Hello, World!"
-      placeholder="Enter your name..."
-    />
-  );
+const App: React.FC = () => {
+  return <HelloWorld />;
 };
+
+export default App;
