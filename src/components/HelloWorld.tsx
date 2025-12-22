@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import './HelloWorld.css';
 
 /**
- * Props for the HelloWorld component
+ * Props interface for the HelloWorld component
  */
 export interface HelloWorldProps {
   /**
-   * Initial greeting message
+   * Initial greeting message to display
    * @default "Hello, World!"
    */
   initialMessage?: string;
@@ -15,83 +14,77 @@ export interface HelloWorldProps {
    * Placeholder text for the input field
    * @default "Enter your name..."
    */
-  placeholder?: string;
+  placeholderText?: string;
+  
+  /**
+   * Additional CSS class name for custom styling
+   */
+  className?: string;
 }
 
 /**
- * HelloWorld component - A simple greeting page with text input
+ * HelloWorld Component
  * 
- * Displays a greeting message and allows users to personalize it
- * by entering their name in a text input field.
+ * A simple component that displays a greeting message and allows users
+ * to input their name, which updates the greeting dynamically.
  * 
- * @component
- * @example
- * ```tsx
- * <HelloWorld 
- *   initialMessage="Welcome!" 
- *   placeholder="Type your name" 
- * />
- * ```
+ * @param props - Component props
+ * @returns React component
  */
-export const HelloWorld: React.FC<HelloWorldProps> = ({ 
+export const HelloWorld: React.FC<HelloWorldProps> = ({
   initialMessage = 'Hello, World!',
-  placeholder = 'Enter your name...'
+  placeholderText = 'Enter your name...',
+  className = ''
 }) => {
-  const [name, setName] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>('');
+  const [greeting, setGreeting] = useState<string>(initialMessage);
 
   /**
-   * Handle input change event
+   * Handles input change events and updates the greeting
+   * @param event - Change event from the input element
    */
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setName(event.target.value);
-  };
-
-  /**
-   * Generate personalized greeting message
-   */
-  const getGreeting = (): string => {
-    if (name.trim() === '') {
-      return initialMessage;
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+    
+    if (value.trim()) {
+      setGreeting(`Hello, ${value}!`);
+    } else {
+      setGreeting(initialMessage);
     }
-    return `Hello, ${name.trim()}!`;
   };
 
   return (
-    <section 
-      className="hello-world" 
-      role="region" 
-      aria-label="Hello world greeting section"
-    >
-      <div className="hello-world__container">
-        <h1 className="hello-world__title">
-          {getGreeting()}
-        </h1>
-        
-        <div className="hello-world__input-wrapper">
-          <label 
-            htmlFor="name-input" 
-            className="hello-world__label"
-          >
-            Your Name:
-          </label>
-          <input
-            id="name-input"
-            type="text"
-            className="hello-world__input"
-            value={name}
-            onChange={handleInputChange}
-            placeholder={placeholder}
-            aria-label="Enter your name"
-            aria-describedby="name-description"
-          />
-          <p 
-            id="name-description" 
-            className="hello-world__description"
-          >
-            Type your name to personalize the greeting
-          </p>
+    <main className={`hello-world ${className}`.trim()}>
+      <section 
+        className="hello-world__container" 
+        role="region" 
+        aria-label="Hello World greeting section"
+      >
+        <div className="hello-world__content">
+          <h1 className="hello-world__title">{greeting}</h1>
+          
+          <div className="hello-world__input-wrapper">
+            <label 
+              htmlFor="name-input" 
+              className="hello-world__label"
+            >
+              Your Name:
+            </label>
+            <input
+              id="name-input"
+              type="text"
+              className="hello-world__input"
+              placeholder={placeholderText}
+              value={inputValue}
+              onChange={handleInputChange}
+              aria-label="Name input field"
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 };
+
+export default HelloWorld;

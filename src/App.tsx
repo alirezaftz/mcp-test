@@ -1,13 +1,14 @@
 import React from 'react';
-import { HelloWorld } from './components/HelloWorld';
+import HelloWorld from './components/HelloWorld';
+import './components/HelloWorld.css';
 
 /**
  * Main application component
+ * 
+ * Renders the HelloWorld component with default props
  */
-export const App: React.FC = () => {
-  return (
-    <main>
-      <HelloWorld />
-    </main>
-  );
+const App: React.FC = () => {
+  return <HelloWorld />;
 };
+
+export default App;
