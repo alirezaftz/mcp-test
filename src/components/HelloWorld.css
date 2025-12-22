@@ -1,0 +1,102 @@
+.hello-world {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.hello-world__container {
+  background: white;
+  border-radius: 16px;
+  padding: clamp(2rem, 5vw, 3rem);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.hello-world__heading {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.hello-world__input-group {
+  margin-bottom: 1.5rem;
+}
+
+.hello-world__label {
+  display: block;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: #555;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.hello-world__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hello-world__input {
+  width: 100%;
+  padding: 0.875rem 2.5rem 0.875rem 1rem;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.hello-world__input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.hello-world__input::placeholder {
+  color: #aaa;
+}
+
+.hello-world__clear-button {
+  position: absolute;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hello-world__clear-button:hover {
+  color: #667eea;
+}
+
+.hello-world__clear-button:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.hello-world__description {
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  color: #777;
+  text-align: center;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .hello-world {
+    padding: 1rem;
+  }
+
+  .hello-world__container {
+    padding: 1.5rem;
+  }
+}

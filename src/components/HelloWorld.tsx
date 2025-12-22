@@ -1,98 +1,91 @@
 import React, { useState } from 'react';
+import './HelloWorld.css';
 
 /**
  * Props for the HelloWorld component
  */
 export interface HelloWorldProps {
-  /** The main title text to display */
-  title: string;
-  /** Placeholder text for the input field */
+  /**
+   * Initial greeting message to display
+   * @default "Hello, World!"
+   */
+  greeting?: string;
+  /**
+   * Placeholder text for the input field
+   * @default "Enter your name..."
+   */
   placeholder?: string;
-  /** Label text for the input field */
-  label?: string;
-  /** Optional CSS class name */
-  className?: string;
 }
 
 /**
- * HelloWorld component displays a greeting and an interactive text input
- * 
- * This component demonstrates a simple form with controlled input and
- * follows WCAG 2.2 accessibility guidelines with proper ARIA attributes
- * and semantic HTML.
- * 
- * @param props - Component props
- * @returns A section containing a greeting and text input
+ * HelloWorld component that displays a greeting and a text input
+ * Users can enter their name to personalize the greeting
  */
 export const HelloWorld: React.FC<HelloWorldProps> = ({
-  title,
-  placeholder = 'Type here...',
-  label = 'Your input',
-  className = '',
+  greeting = "Hello, World!",
+  placeholder = "Enter your name..."
 }) => {
-  const [inputValue, setInputValue] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [displayGreeting, setDisplayGreeting] = useState<string>(greeting);
 
   /**
-   * Handles input value changes
-   * @param event - React change event from the input element
+   * Handles input change events and updates the greeting
    */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(event.target.value);
+    const value = event.target.value;
+    setName(value);
+    
+    if (value.trim()) {
+      setDisplayGreeting(`Hello, ${value}!`);
+    } else {
+      setDisplayGreeting(greeting);
+    }
   };
 
   /**
-   * Handles form submission
-   * @param event - React form event
+   * Handles clearing the input when the clear button is clicked
    */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
+  const handleClear = (): void => {
+    setName('');
+    setDisplayGreeting(greeting);
   };
 
   return (
-    <section
-      className={`hello-world ${className}`.trim()}
-      role="region"
-      aria-label="Hello world greeting section"
-    >
+    <section className="hello-world" role="region" aria-label="Hello world greeting section">
       <div className="hello-world__container">
-        <h1 className="hello-world__title">{title}</h1>
+        <h1 className="hello-world__heading">{displayGreeting}</h1>
         
-        <form
-          className="hello-world__form"
-          onSubmit={handleSubmit}
-          aria-label="Greeting input form"
-        >
-          <div className="hello-world__input-group">
-            <label
-              htmlFor="name-input"
-              className="hello-world__label"
-            >
-              {label}
-            </label>
+        <div className="hello-world__input-group">
+          <label htmlFor="name-input" className="hello-world__label">
+            What's your name?
+          </label>
+          <div className="hello-world__input-wrapper">
             <input
               id="name-input"
               type="text"
               className="hello-world__input"
-              value={inputValue}
+              value={name}
               onChange={handleInputChange}
               placeholder={placeholder}
-              aria-label={label}
-              aria-describedby="greeting-output"
+              aria-label="Name input field"
             />
+            {name && (
+              <button
+                className="hello-world__clear-button"
+                onClick={handleClear}
+                aria-label="Clear name input"
+                type="button"
+              >
+                ×
+              </button>
+            )}
           </div>
-          
-          {inputValue && (
-            <p
-              id="greeting-output"
-              className="hello-world__greeting"
-              role="status"
-              aria-live="polite"
-            >
-              Hello, {inputValue}!
-            </p>
-          )}
-        </form>
+        </div>
+
+        <p className="hello-world__description">
+          Type your name above to personalize the greeting!
+        </p>
       </div>
     </section>
   );
-};
+};';
