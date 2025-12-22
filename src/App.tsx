@@ -1,22 +1,14 @@
 import React from 'react';
 import { HelloWorld } from './components/HelloWorld';
-import './index.css';
 
 /**
- * Main App Component
- * 
- * Root component that renders the HelloWorld page
+ * Main application component
+ * Renders the Hello World page with text input
  */
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
-    <HelloWorld
-      title="Hello World"
-      subtitle="Welcome to our interactive greeting page"
-      inputPlaceholder="Enter your name..."
-      inputLabel="Your Name"
-      defaultGreeting="Hello! Please enter your name above."
-    />
+    <main className="app">
+      <HelloWorld />
+    </main>
   );
 };
-
-export default App;
