@@ -1,5 +1,5 @@
 {
-  "name": "hello-world-app",
+  "name": "hello-world-input",
   "version": "1.0.0",
   "description": "A simple hello world page with text input",
   "type": "module",
@@ -16,6 +16,7 @@
   "devDependencies": {
     "@playwright/experimental-ct-react": "^1.40.0",
     "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.0",
