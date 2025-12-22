@@ -1,0 +1,156 @@
+/**
+ * HelloWorld Component Styles
+ * Uses BEM naming convention and CSS custom properties for theming
+ */
+
+:root {
+  --hello-world-primary: #4a90e2;
+  --hello-world-secondary: #f5f5f5;
+  --hello-world-text: #333333;
+  --hello-world-border: #dddddd;
+  --hello-world-shadow: rgba(0, 0, 0, 0.1);
+  --hello-world-transition: all 0.3s ease-in-out;
+}
+
+/* Block: hello-world */
+.hello-world {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: clamp(1rem, 2vw, 2rem);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: var(--hello-world-transition);
+}
+
+/* Modifier: visible state */
+.hello-world--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Element: container */
+.hello-world__container {
+  background: white;
+  border-radius: clamp(12px, 2vw, 24px);
+  box-shadow: 0 10px 40px var(--hello-world-shadow);
+  padding: clamp(2rem, 4vw, 4rem);
+  max-width: 600px;
+  width: 100%;
+  animation: slideUp 0.6s ease-out;
+}
+
+/* Element: header */
+.hello-world__header {
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  text-align: center;
+}
+
+/* Element: title */
+.hello-world__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--hello-world-text);
+  margin: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: var(--hello-world-transition);
+}
+
+/* Element: content */
+.hello-world__content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Element: input-group */
+.hello-world__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1vw, 0.75rem);
+}
+
+/* Element: label */
+.hello-world__label {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  font-weight: 600;
+  color: var(--hello-world-text);
+  margin-bottom: 0.25rem;
+}
+
+/* Element: input */
+.hello-world__input {
+  padding: clamp(0.75rem, 1.5vw, 1rem);
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  border: 2px solid var(--hello-world-border);
+  border-radius: clamp(8px, 1vw, 12px);
+  transition: var(--hello-world-transition);
+  outline: none;
+  font-family: inherit;
+}
+
+.hello-world__input:focus {
+  border-color: var(--hello-world-primary);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.hello-world__input::placeholder {
+  color: #999999;
+}
+
+/* Element: description */
+.hello-world__description {
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  color: #666666;
+  font-style: italic;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hello-world {
+    padding: 1rem;
+  }
+
+  .hello-world__container {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hello-world__container {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hello-world,
+  .hello-world__container,
+  .hello-world__title,
+  .hello-world__input {
+    animation: none;
+    transition: none;
+  }
+
+  .hello-world--visible {
+    opacity: 1;
+    transform: none;
+  }
+}
