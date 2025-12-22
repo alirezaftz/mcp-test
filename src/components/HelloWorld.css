@@ -1,0 +1,114 @@
+.hello-world {
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--color-background, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.hello-world__container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.hello-world__header {
+  text-align: center;
+}
+
+.hello-world__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--color-text, #333);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hello-world__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hello-world__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hello-world__label {
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  font-weight: 600;
+  color: var(--color-text, #333);
+  margin-bottom: 0.25rem;
+}
+
+.hello-world__input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  border: 2px solid var(--color-border, #e0e0e0);
+  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.hello-world__input:focus {
+  outline: none;
+  border-color: var(--color-primary, #0070f3);
+  box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.1);
+}
+
+.hello-world__input::placeholder {
+  color: #999;
+}
+
+.hello-world__description {
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  color: #666;
+  margin: 0;
+}
+
+.hello-world__greeting {
+  background-color: #f0f9ff;
+  border-left: 4px solid var(--color-primary, #0070f3);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.hello-world__greeting-text {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--color-text, #333);
+  margin: 0;
+}
+
+.hello-world__greeting-name {
+  color: var(--color-primary, #0070f3);
+  font-weight: 700;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .hello-world {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hello-world {
+    padding: 3rem;
+  }
+}
