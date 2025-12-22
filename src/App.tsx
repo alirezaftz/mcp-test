@@ -2,12 +2,13 @@ import React from 'react';
 import { HelloWorld } from './components/HelloWorld';
 
 /**
- * Main App Component
- * 
- * Root component that renders the HelloWorld component
+ * Main application component
+ * Renders the Hello World page
  */
-const App: React.FC = () => {
-  return <HelloWorld />;
+export const App: React.FC = () => {
+  return (
+    <main className="app">
+      <HelloWorld />
+    </main>
+  );
 };
-
-export default App;
