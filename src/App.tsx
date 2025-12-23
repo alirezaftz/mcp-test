@@ -4,18 +4,12 @@ import './App.css';
 
 /**
  * Main application component
- * Renders the Hello World page with text input
+ * Renders the HelloWorld page component
  */
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
-    <main className="app" role="main" aria-label="Main application">
-      <HelloWorld
-        title="Hello World"
-        placeholder="Enter your name"
-        defaultValue=""
-      />
+    <main className="app">
+      <HelloWorld />
     </main>
   );
 };
-
-export default App;

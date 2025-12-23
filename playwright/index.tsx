@@ -1,13 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import { beforeMount, afterMount } from '@playwright/experimental-ct-react/hooks';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+beforeMount(async ({ App }) => {
+  return <App />;
+});
 
-root.render(
-  <React.StrictMode>
-    <div id="app"></div>
-  </React.StrictMode>
-);
+afterMount(async () => {
+  // Cleanup if needed
+});
