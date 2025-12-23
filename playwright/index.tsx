@@ -1,8 +1,10 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
+import './index.css';
 
-const root = createRoot(document.getElementById('root')!);
-
-// This file is used by Playwright component testing
-// It provides a React root for mounting components
-export default root;
+const root = document.getElementById('root')!;
+ReactDOM.createRoot(root).render(
+  <React.StrictMode>
+    <div id="app"></div>
+  </React.StrictMode>
+);

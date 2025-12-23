@@ -5,40 +5,53 @@ import './HelloWorld.css';
  * Props interface for the HelloWorld component
  */
 export interface HelloWorldProps {
-  /** Initial greeting message to display */
-  initialMessage?: string;
-  /** Placeholder text for the input field */
+  /**
+   * Initial greeting text to display
+   * @default "Hello, World!"
+   */
+  initialGreeting?: string;
+  
+  /**
+   * Placeholder text for the input field
+   * @default "Enter your name..."
+   */
   inputPlaceholder?: string;
+  
+  /**
+   * Additional CSS class name for custom styling
+   */
+  className?: string;
 }
 
 /**
  * HelloWorld Component
  * 
- * A simple component that displays a greeting message and allows users
- * to input their name to personalize the greeting.
+ * A simple hello world page component with a text input that allows users
+ * to personalize the greeting message.
  * 
  * @param props - Component props
  * @returns React component
  */
 export const HelloWorld: React.FC<HelloWorldProps> = ({
-  initialMessage = 'Hello, World!',
-  inputPlaceholder = 'Enter your name'
+  initialGreeting = 'Hello, World!',
+  inputPlaceholder = 'Enter your name...',
+  className = '',
 }) => {
-  const [userName, setUserName] = useState<string>('');
-  const [displayMessage, setDisplayMessage] = useState<string>(initialMessage);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [displayGreeting, setDisplayGreeting] = useState<string>(initialGreeting);
 
   /**
-   * Handles input change event
+   * Handles input change events
    * @param event - React change event
    */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;
-    setUserName(value);
+    setInputValue(value);
     
     if (value.trim()) {
-      setDisplayMessage(`Hello, ${value}!`);
+      setDisplayGreeting(`Hello, ${value.trim()}!`);
     } else {
-      setDisplayMessage(initialMessage);
+      setDisplayGreeting(initialGreeting);
     }
   };
 
@@ -51,35 +64,41 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
   };
 
   return (
-    <main className="hello-world" role="main" aria-label="Hello World application">
-      <section className="hello-world__container" role="region" aria-label="Greeting section">
-        <h1 className="hello-world__heading">{displayMessage}</h1>
-        
-        <form 
-          className="hello-world__form" 
-          onSubmit={handleSubmit}
-          aria-label="Name input form"
-        >
-          <label htmlFor="name-input" className="hello-world__label">
-            What's your name?
-          </label>
+    <main className={`hello-world ${className}`.trim()}>
+      <section 
+        className="hello-world__container" 
+        role="region" 
+        aria-label="Hello world greeting section"
+      >
+        <div className="hello-world__content">
+          <h1 className="hello-world__title">{displayGreeting}</h1>
           
-          <input
-            id="name-input"
-            type="text"
-            className="hello-world__input"
-            placeholder={inputPlaceholder}
-            value={userName}
-            onChange={handleInputChange}
-            aria-label="Name input field"
-            aria-describedby="input-description"
-          />
-          
-          <span id="input-description" className="hello-world__description">
-            Type your name to see a personalized greeting
-          </span>
-        </form>
+          <form 
+            className="hello-world__form" 
+            onSubmit={handleSubmit}
+            aria-label="Greeting customization form"
+          >
+            <label htmlFor="name-input" className="hello-world__label">
+              Personalize your greeting:
+            </label>
+            
+            <input
+              id="name-input"
+              type="text"
+              className="hello-world__input"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder={inputPlaceholder}
+              aria-label="Name input field for personalized greeting"
+              aria-describedby="input-description"
+            />
+            
+            <p id="input-description" className="hello-world__description">
+              Type your name to see a personalized greeting
+            </p>
+          </form>
+        </div>
       </section>
     </main>
   );
-};';
+};
