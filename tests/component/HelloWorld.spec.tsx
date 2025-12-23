@@ -1,293 +1,252 @@
 import { test, expect } from '@playwright/experimental-ct-react';
-import { HelloWorld } from '../../src/components/HelloWorld';
+import HelloWorld from '../../src/components/HelloWorld';
 
 test.describe('HelloWorld Component Tests', () => {
-  test('should render with required props', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should render with default props', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
-    await expect(component.locator('.hello-world')).toBeVisible();
-    await expect(component.locator('.hello-world__title')).toHaveText('Hello World');
-    await expect(component.locator('.hello-world__label')).toHaveText('Enter your name');
+    // Check that component is visible
+    await expect(component.locator('section[role="region"]')).toBeVisible();
+    
+    // Check default greeting is displayed
+    await expect(component.locator('.hello-world__heading')).toHaveText('Hello, World!');
+    
+    // Check input is present with default placeholder
+    const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
+    await expect(input).toHaveAttribute('placeholder', 'Enter your name');
   });
 
-  test('should render with all props including optional subtitle', async ({ mount }) => {
+  test('should render with custom greeting', async ({ mount }) => {
     const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        subtitle="Welcome to our app"
-        inputLabel="Enter your name"
-        inputPlaceholder="Type here..."
-      />
+      <HelloWorld greeting="Welcome to React!" />
     );
 
-    await expect(component.locator('.hello-world__title')).toHaveText('Hello World');
-    await expect(component.locator('.hello-world__subtitle')).toHaveText('Welcome to our app');
-    await expect(component.locator('.hello-world__input')).toHaveAttribute('placeholder', 'Type here...');
+    await expect(component.locator('.hello-world__heading')).toHaveText('Welcome to React!');
   });
 
-  test('should not render subtitle when not provided', async ({ mount }) => {
+  test('should render with custom input placeholder', async ({ mount }) => {
     const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
+      <HelloWorld inputPlaceholder="Type your name here" />
     );
 
-    await expect(component.locator('.hello-world__subtitle')).not.toBeVisible();
+    const input = component.locator('.hello-world__input');
+    await expect(input).toHaveAttribute('placeholder', 'Type your name here');
   });
 
   test('should have proper semantic HTML structure', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+    const component = await mount(<HelloWorld />);
 
-    const section = component.locator('section[role="region"]');
-    await expect(section).toBeVisible();
-    await expect(section).toHaveAttribute('aria-label', 'Hello World page section');
+    // Check semantic section element
+    await expect(component.locator('section[role="region"]')).toBeVisible();
+    
+    // Check form element with proper role
+    await expect(component.locator('form[role="form"]')).toBeVisible();
+    
+    // Check label is associated with input
+    const label = component.locator('.hello-world__label');
+    await expect(label).toHaveAttribute('for', 'name-input');
+    
+    const input = component.locator('#name-input');
+    await expect(input).toBeVisible();
   });
 
-  test('should have accessible input field', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should have proper ARIA attributes', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
-    const input = component.locator('#hello-input');
-    await expect(input).toBeVisible();
-    await expect(input).toHaveAttribute('aria-label', 'Enter your name');
-    await expect(input).toHaveAttribute('aria-describedby', 'hello-input-description');
+    // Check section has role and aria-label
+    const section = component.locator('section');
+    await expect(section).toHaveAttribute('role', 'region');
+    await expect(section).toHaveAttribute('aria-label', 'Hello World section');
     
-    const label = component.locator('label[for="hello-input"]');
-    await expect(label).toBeVisible();
-    await expect(label).toHaveText('Enter your name');
+    // Check form has aria-label
+    const form = component.locator('form');
+    await expect(form).toHaveAttribute('aria-label', 'Name input form');
+    
+    // Check input has aria-label
+    const input = component.locator('input');
+    await expect(input).toHaveAttribute('aria-label', 'Text input for name');
   });
 
   test('should update input value when user types', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+    const component = await mount(<HelloWorld />);
 
     const input = component.locator('.hello-world__input');
+    
+    // Type into the input
     await input.fill('John Doe');
     
+    // Check input value is updated
     await expect(input).toHaveValue('John Doe');
   });
 
-  test('should show greeting message when input has value', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should display personalized greeting when name is entered', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
     const input = component.locator('.hello-world__input');
-    await input.fill('Alice');
-
-    const greeting = component.locator('.hello-world__greeting');
-    await expect(greeting).toBeVisible();
     
-    const greetingText = component.locator('.hello-world__greeting-text');
-    await expect(greetingText).toContainText('Hello, Alice! Nice to meet you!');
+    // Initially, greeting message should not be visible
+    await expect(component.locator('.hello-world__greeting-message')).not.toBeVisible();
+    
+    // Type a name
+    await input.fill('Alice');
+    
+    // Personalized greeting should appear
+    const greetingMessage = component.locator('.hello-world__greeting-message');
+    await expect(greetingMessage).toBeVisible();
+    await expect(greetingMessage).toHaveText('Hello, Alice!');
   });
 
-  test('should not show greeting message when input is empty', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
-
-    const greeting = component.locator('.hello-world__greeting');
-    await expect(greeting).not.toBeVisible();
-  });
-
-  test('should have clear button with proper ARIA label', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should hide personalized greeting when input is cleared', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
     const input = component.locator('.hello-world__input');
+    
+    // Type a name
     await input.fill('Bob');
-
-    const clearButton = component.locator('.hello-world__clear-button');
-    await expect(clearButton).toBeVisible();
-    await expect(clearButton).toHaveAttribute('aria-label', 'Clear input field');
-    await expect(clearButton).toHaveText('Clear');
-  });
-
-  test('should clear input when clear button is clicked', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
-
-    const input = component.locator('.hello-world__input');
-    await input.fill('Charlie');
-    await expect(input).toHaveValue('Charlie');
-
-    const clearButton = component.locator('.hello-world__clear-button');
-    await clearButton.click();
-
-    await expect(input).toHaveValue('');
-  });
-
-  test('should hide greeting after clearing input', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
-
-    const input = component.locator('.hello-world__input');
-    await input.fill('David');
-
-    let greeting = component.locator('.hello-world__greeting');
-    await expect(greeting).toBeVisible();
-
-    const clearButton = component.locator('.hello-world__clear-button');
-    await clearButton.click();
-
-    greeting = component.locator('.hello-world__greeting');
-    await expect(greeting).not.toBeVisible();
+    await expect(component.locator('.hello-world__greeting-message')).toBeVisible();
+    
+    // Clear the input
+    await input.fill('');
+    
+    // Greeting message should disappear
+    await expect(component.locator('.hello-world__greeting-message')).not.toBeVisible();
   });
 
   test('should have proper BEM class naming', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+    const component = await mount(<HelloWorld />);
 
+    // Check block class
     await expect(component.locator('.hello-world')).toBeVisible();
-    await expect(component.locator('.hello-world__container')).toBeVisible();
-    await expect(component.locator('.hello-world__header')).toBeVisible();
-    await expect(component.locator('.hello-world__title')).toBeVisible();
+    
+    // Check element classes
     await expect(component.locator('.hello-world__content')).toBeVisible();
-    await expect(component.locator('.hello-world__input-group')).toBeVisible();
+    await expect(component.locator('.hello-world__heading')).toBeVisible();
+    await expect(component.locator('.hello-world__form')).toBeVisible();
+    await expect(component.locator('.hello-world__input-wrapper')).toBeVisible();
     await expect(component.locator('.hello-world__label')).toBeVisible();
     await expect(component.locator('.hello-world__input')).toBeVisible();
-    await expect(component.locator('.hello-world__description')).toBeVisible();
   });
 
   test('should support custom className prop', async ({ mount }) => {
     const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-        className="custom-class"
-      />
+      <HelloWorld className="custom-class" />
     );
+
+    const section = component.locator('section');
+    await expect(section).toHaveClass(/custom-class/);
+    await expect(section).toHaveClass(/hello-world/);
+  });
+
+  test('should support custom aria-label', async ({ mount }) => {
+    const component = await mount(
+      <HelloWorld ariaLabel="Custom greeting section" />
+    );
+
+    await expect(component.locator('section')).toHaveAttribute('aria-label', 'Custom greeting section');
+  });
+
+  test('should apply visibility modifier class', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
     const section = component.locator('.hello-world');
-    await expect(section).toHaveClass(/custom-class/);
+    
+    // Check that visibility modifier is eventually applied
+    await expect(section).toHaveClass(/hello-world--visible/, { timeout: 1000 });
   });
 
-  test('should have accessible live region for greeting', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should handle form submission without page reload', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
     const input = component.locator('.hello-world__input');
-    await input.fill('Emma');
-
-    const greeting = component.locator('.hello-world__greeting');
-    await expect(greeting).toHaveAttribute('role', 'status');
-    await expect(greeting).toHaveAttribute('aria-live', 'polite');
+    const form = component.locator('.hello-world__form');
+    
+    // Fill input
+    await input.fill('Test User');
+    
+    // Submit form (should not cause any errors)
+    await form.evaluate((form) => {
+      const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+      form.dispatchEvent(submitEvent);
+    });
+    
+    // Input value should still be present (no page reload)
+    await expect(input).toHaveValue('Test User');
+    await expect(component.locator('.hello-world__greeting-message')).toHaveText('Hello, Test User!');
   });
 
-  test('should be keyboard accessible', async ({ mount, page }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should be keyboard accessible', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
     const input = component.locator('.hello-world__input');
     
+    // Focus the input using keyboard
     await input.focus();
-    await page.keyboard.type('Frank');
-    await expect(input).toHaveValue('Frank');
-
-    await page.keyboard.press('Tab');
-    const clearButton = component.locator('.hello-world__clear-button');
-    await expect(clearButton).toBeFocused();
-
-    await page.keyboard.press('Enter');
-    await expect(input).toHaveValue('');
+    
+    // Check input is focused
+    await expect(input).toBeFocused();
+    
+    // Type using keyboard
+    await input.pressSequentially('Keyboard User');
+    
+    // Check value updated
+    await expect(input).toHaveValue('Keyboard User');
+    await expect(component.locator('.hello-world__greeting-message')).toHaveText('Hello, Keyboard User!');
   });
 
-  test('should handle multiple input changes', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should have responsive design with proper CSS', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
+
+    const section = component.locator('.hello-world');
+    
+    // Check that essential styling is applied
+    await expect(section).toHaveCSS('display', 'flex');
+    
+    // Check content container exists
+    await expect(component.locator('.hello-world__content')).toBeVisible();
+  });
+
+  test('should handle empty string input gracefully', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
     const input = component.locator('.hello-world__input');
     
-    await input.fill('Grace');
-    await expect(component.locator('.hello-world__greeting-text')).toContainText('Hello, Grace!');
-
-    await input.fill('Henry');
-    await expect(component.locator('.hello-world__greeting-text')).toContainText('Hello, Henry!');
-
-    await input.fill('Iris');
-    await expect(component.locator('.hello-world__greeting-text')).toContainText('Hello, Iris!');
+    // Fill with text
+    await input.fill('Test');
+    await expect(component.locator('.hello-world__greeting-message')).toBeVisible();
+    
+    // Clear to empty string
+    await input.fill('');
+    
+    // Greeting should not be visible
+    await expect(component.locator('.hello-world__greeting-message')).not.toBeVisible();
   });
 
   test('should handle special characters in input', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+    const component = await mount(<HelloWorld />);
 
     const input = component.locator('.hello-world__input');
-    const specialName = "O'Brien-Smith 123!";
     
-    await input.fill(specialName);
-    await expect(input).toHaveValue(specialName);
-    await expect(component.locator('.hello-world__greeting-text')).toContainText(`Hello, ${specialName}!`);
+    // Type special characters
+    await input.fill('John O\'Brien');
+    
+    // Check greeting displays correctly
+    const greetingMessage = component.locator('.hello-world__greeting-message');
+    await expect(greetingMessage).toHaveText('Hello, John O\'Brien!');
   });
 
-  test('should render description text for input', async ({ mount }) => {
-    const component = await mount(
-      <HelloWorld
-        title="Hello World"
-        inputLabel="Enter your name"
-      />
-    );
+  test('should have proper label-input association', async ({ mount }) => {
+    const component = await mount(<HelloWorld />);
 
-    const description = component.locator('#hello-input-description');
-    await expect(description).toBeVisible();
-    await expect(description).toHaveText('Type your name to see a personalized greeting');
+    const label = component.locator('.hello-world__label');
+    const input = component.locator('#name-input');
+    
+    // Verify label's 'for' attribute matches input's 'id'
+    await expect(label).toHaveAttribute('for', 'name-input');
+    await expect(input).toHaveAttribute('id', 'name-input');
+    
+    // Clicking label should focus input
+    await label.click();
+    await expect(input).toBeFocused();
   });
 });

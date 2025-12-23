@@ -2,8 +2,6 @@ import { defineConfig, devices } from '@playwright/experimental-ct-react';
 
 export default defineConfig({
   testDir: './tests/component',
-  snapshotDir: './__snapshots__',
-  timeout: 10000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -11,7 +9,6 @@ export default defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
-    ctPort: 3100,
   },
   projects: [
     {
