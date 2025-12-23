@@ -1,20 +1,17 @@
 import React from 'react';
 import { HelloWorld } from './components/HelloWorld';
-import './App.css';
 
 /**
- * Main application component
- * Renders the HelloWorld page component
+ * Main Application Component
+ * 
+ * Renders the HelloWorld component with default props
+ * 
+ * @returns {React.ReactElement} The rendered App component
  */
-export const App: React.FC = () => {
+const App: React.FC = () => {
   return (
-    <main className="app" role="main" aria-label="Main application">
-      <HelloWorld
-        title="Hello World"
-        subtitle="Enter your name below"
-        placeholderText="Enter your name"
-        greetingPrefix="Hello"
-      />
-    </main>
+    <HelloWorld />
   );
 };
+
+export default App;
