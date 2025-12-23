@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hello-world {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+}
+
+.hello-world__container {
+  background: white;
+  padding: clamp(2rem, 5vw, 3rem);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+}
+
+.hello-world__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.hello-world__description {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #666;
+  margin-bottom: 2rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.hello-world__input-group {
+  margin-bottom: 1.5rem;
+}
+
+.hello-world__label {
+  display: block;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.hello-world__input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+.hello-world__input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.hello-world__input::placeholder {
+  color: #999;
+}
+
+.hello-world__greeting {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  color: #667eea;
+  text-align: center;
+  margin-top: 1.5rem;
+  min-height: 2rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .hello-world {
+    padding: 1rem;
+  }
+  
+  .hello-world__container {
+    padding: 1.5rem;
+  }
+}

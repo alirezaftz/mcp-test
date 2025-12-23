@@ -15,9 +15,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "esModuleInterop": true
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "playwright"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
