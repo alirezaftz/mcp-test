@@ -1,13 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { beforeMount, afterMount } from '@playwright/experimental-ct-react/hooks';
 import '../src/index.css';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-
-root.render(
-  <React.StrictMode>
-    <div id="root" />
-  </React.StrictMode>
-);
+export { beforeMount, afterMount };
