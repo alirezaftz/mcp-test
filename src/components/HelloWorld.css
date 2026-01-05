@@ -7,84 +7,77 @@
   padding: 1rem;
 }
 
-.hello-world__content {
+.hello-world__container {
   background: white;
   border-radius: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 500px;
+  max-width: 600px;
   width: 100%;
 }
 
-.hello-world__header {
-  margin-bottom: 2rem;
-  text-align: center;
+.hello-world__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.hello-world__title {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  color: #333;
+.hello-world__heading {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #2d3748;
+  text-align: center;
   font-weight: 700;
-  margin: 0;
   line-height: 1.2;
+  margin: 0;
+  transition: color 0.3s ease;
 }
 
 .hello-world__form {
   display: flex;
   flex-direction: column;
-}
-
-.hello-world__input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .hello-world__label {
   font-size: 1rem;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 0.25rem;
+  color: #4a5568;
+  font-weight: 500;
 }
 
 .hello-world__input {
   padding: 0.875rem 1rem;
   font-size: 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #e2e8f0;
   border-radius: 0.5rem;
-  outline: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   font-family: inherit;
+  width: 100%;
 }
 
 .hello-world__input:focus {
+  outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .hello-world__input::placeholder {
-  color: #aaa;
+  color: #a0aec0;
 }
 
-.hello-world__input-description {
+.hello-world__description {
   font-size: 0.875rem;
-  color: #777;
-  font-style: italic;
+  color: #718096;
+  margin: 0;
 }
 
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .hello-world__content {
+  .hello-world__container {
     padding: 1.5rem;
   }
 
-  .hello-world__title {
-    font-size: clamp(1.25rem, 5vw, 2rem);
-  }
-
-  .hello-world__input {
-    padding: 0.75rem 0.875rem;
-    font-size: 0.9375rem;
+  .hello-world__heading {
+    font-size: clamp(1.5rem, 4vw, 2rem);
   }
 }
 
@@ -93,8 +86,7 @@
     padding: 0.5rem;
   }
 
-  .hello-world__content {
-    padding: 1.25rem;
-    border-radius: 0.75rem;
+  .hello-world__container {
+    padding: 1rem;
   }
 }

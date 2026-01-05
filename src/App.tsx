@@ -2,12 +2,9 @@ import React from 'react';
 import HelloWorld from './components/HelloWorld';
 
 /**
- * Main application component
+ * Main Application Component
  * 
- * This component serves as the root of the application,
- * rendering the HelloWorld component with default props.
- * 
- * @returns React functional component
+ * Renders the HelloWorld component as the main application interface
  */
 const App: React.FC = () => {
   return <HelloWorld />;
