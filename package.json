@@ -10,7 +10,7 @@
     "test": "npm run test:component && npm run test:e2e",
     "test:component": "playwright test --config=playwright-ct.config.ts",
     "test:e2e": "playwright test --config=playwright.config.ts",
-    "postinstall": "playwright install --with-deps"
+    "playwright:install": "playwright install --with-deps"
   },
   "dependencies": {
     "react": "^18.2.0",
