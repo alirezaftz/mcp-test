@@ -5,6 +5,9 @@ test.describe('HelloWorld Component Tests', () => {
   test('should render with default greeting', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    // Wait for component to be visible
+    await expect(component).toBeVisible();
+
     // Test default greeting is displayed
     await expect(component.locator('.hello-world__heading')).toHaveText('Hello, World!');
     
@@ -19,12 +22,14 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld initialGreeting="Welcome to our app!" />
     );
 
+    await expect(component).toBeVisible();
     await expect(component.locator('.hello-world__heading')).toHaveText('Welcome to our app!');
   });
 
   test('should render input with default placeholder', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     await expect(input).toBeVisible();
     await expect(input).toHaveAttribute('placeholder', 'Type something...');
@@ -35,6 +40,7 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld inputPlaceholder="Enter your name here..." />
     );
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     await expect(input).toHaveAttribute('placeholder', 'Enter your name here...');
   });
@@ -42,6 +48,7 @@ test.describe('HelloWorld Component Tests', () => {
   test('should update greeting when user types in input', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     const heading = component.locator('.hello-world__heading');
 
@@ -58,6 +65,7 @@ test.describe('HelloWorld Component Tests', () => {
   test('should update greeting dynamically as user types', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     const heading = component.locator('.hello-world__heading');
 
@@ -77,6 +85,7 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld initialGreeting="Hello, World!" />
     );
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     const heading = component.locator('.hello-world__heading');
 
@@ -94,6 +103,7 @@ test.describe('HelloWorld Component Tests', () => {
   test('should handle whitespace-only input', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     const heading = component.locator('.hello-world__heading');
 
@@ -107,6 +117,7 @@ test.describe('HelloWorld Component Tests', () => {
   test('should have proper accessibility attributes on input', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     
     // Check ARIA attributes
@@ -118,6 +129,7 @@ test.describe('HelloWorld Component Tests', () => {
   test('should have associated label for input', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const label = component.locator('.hello-world__label');
     const input = component.locator('.hello-world__input');
     
@@ -132,6 +144,7 @@ test.describe('HelloWorld Component Tests', () => {
   test('should display helper description text', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const description = component.locator('.hello-world__description');
     
     await expect(description).toBeVisible();
@@ -142,6 +155,7 @@ test.describe('HelloWorld Component Tests', () => {
   test('should use BEM class naming convention', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     // Check BEM class structure
     await expect(component.locator('.hello-world')).toBeVisible();
     await expect(component.locator('.hello-world__container')).toBeVisible();
@@ -158,12 +172,14 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld className="custom-class" />
     );
 
+    await expect(component).toBeVisible();
     await expect(component.locator('.hello-world.custom-class')).toBeVisible();
   });
 
   test('should be keyboard accessible', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
+    await expect(component).toBeVisible();
     const input = component.locator('.hello-world__input');
     
     // Focus the input using keyboard
