@@ -1,116 +1,124 @@
 import React, { useState } from 'react';
+import './HelloWorld.css';
 
 /**
  * Props interface for HelloWorld component
  */
 export interface HelloWorldProps {
-  /** Main title text displayed at the top */
-  title: string;
-  /** Optional subtitle text displayed below the title */
-  subtitle?: string;
+  /** Default text to display */
+  defaultText?: string;
   /** Placeholder text for the input field */
-  placeholder?: string;
-  /** Optional CSS class name for custom styling */
+  placeholderText?: string;
+  /** Optional CSS class name */
   className?: string;
+  /** Optional ARIA label for the section */
+  ariaLabel?: string;
 }
 
 /**
- * HelloWorld component - A simple page with greeting and text input
+ * HelloWorld Component
  * 
- * This component displays a hello world message with an interactive text input
- * that allows users to enter their name. The greeting updates dynamically
- * as the user types.
+ * A simple component that displays a greeting text and provides
+ * an input field for users to customize the message.
  * 
- * @param {HelloWorldProps} props - Component props
- * @returns {JSX.Element} Rendered HelloWorld component
- * 
- * @example
- * ```tsx
- * <HelloWorld
- *   title="Hello World"
- *   subtitle="Enter your name"
- *   placeholder="Type here..."
- * />
- * ```
+ * @param props - Component props
+ * @returns React functional component
  */
 export const HelloWorld: React.FC<HelloWorldProps> = ({
-  title,
-  subtitle,
-  placeholder = 'Enter text...',
+  defaultText = 'Hello World',
+  placeholderText = 'Enter text here...',
   className = '',
+  ariaLabel = 'Hello world section'
 }) => {
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputText, setInputText] = useState<string>('');
+  const [displayText, setDisplayText] = useState<string>(defaultText);
 
   /**
-   * Handles changes to the text input
-   * @param {React.ChangeEvent<HTMLInputElement>} event - Input change event
+   * Handles input change events
+   * @param event - React change event from input element
    */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(event.target.value);
+    const value = event.target.value;
+    setInputText(value);
+    setDisplayText(value || defaultText);
   };
 
   /**
-   * Clears the input field
+   * Handles form submission
+   * @param event - React form event
    */
-  const handleClear = (): void => {
-    setInputValue('');
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    setDisplayText(inputText || defaultText);
+  };
+
+  /**
+   * Resets the display text to default
+   */
+  const handleReset = (): void => {
+    setInputText('');
+    setDisplayText(defaultText);
   };
 
   return (
-    <section
-      className={`hello-world ${className}`.trim()}
-      role="region"
-      aria-label="Hello world page section"
+    <section 
+      className={`hello-world ${className}`.trim()} 
+      role="region" 
+      aria-label={ariaLabel}
     >
       <div className="hello-world__container">
         <header className="hello-world__header">
-          <h1 className="hello-world__title">{title}</h1>
-          {subtitle && (
-            <p className="hello-world__subtitle">{subtitle}</p>
-          )}
+          <h1 className="hello-world__title">{displayText}</h1>
         </header>
 
-        <div className="hello-world__content">
+        <form 
+          className="hello-world__form" 
+          onSubmit={handleSubmit}
+          aria-label="Text input form"
+        >
           <div className="hello-world__input-group">
-            <label
-              htmlFor="hello-input"
+            <label 
+              htmlFor="hello-world-input" 
               className="hello-world__label"
             >
-              Your Name:
+              Enter your message:
             </label>
             <input
-              id="hello-input"
+              id="hello-world-input"
               type="text"
               className="hello-world__input"
-              placeholder={placeholder}
-              value={inputValue}
+              value={inputText}
               onChange={handleInputChange}
-              aria-label="Text input for your name"
+              placeholder={placeholderText}
+              aria-label="Text input field"
+              aria-describedby="input-description"
             />
-            {inputValue && (
-              <button
-                className="hello-world__clear-button"
-                onClick={handleClear}
-                aria-label="Clear input field"
-                type="button"
-              >
-                Clear
-              </button>
-            )}
+            <span 
+              id="input-description" 
+              className="hello-world__description"
+            >
+              Type a custom message to replace the default text
+            </span>
           </div>
 
-          {inputValue && (
-            <div
-              className="hello-world__greeting"
-              role="status"
-              aria-live="polite"
+          <div className="hello-world__actions">
+            <button
+              type="submit"
+              className="hello-world__button hello-world__button--primary"
+              aria-label="Submit text input"
             >
-              <p className="hello-world__greeting-text">
-                Hello, <strong className="hello-world__greeting-name">{inputValue}</strong>!
-              </p>
-            </div>
-          )}
-        </div>
+              Update
+            </button>
+            <button
+              type="button"
+              className="hello-world__button hello-world__button--secondary"
+              onClick={handleReset}
+              aria-label="Reset to default text"
+            >
+              Reset
+            </button>
+          </div>
+        </form>
       </div>
     </section>
   );

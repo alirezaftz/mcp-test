@@ -2,6 +2,8 @@ import { defineConfig, devices } from '@playwright/experimental-ct-react';
 
 export default defineConfig({
   testDir: './tests/component',
+  snapshotDir: './__snapshots__',
+  timeout: 10000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -15,6 +17,14 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
     },
   ],
 });

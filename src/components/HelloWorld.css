@@ -1,0 +1,137 @@
+.hello-world {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.hello-world__container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+}
+
+.hello-world__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hello-world__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
+}
+
+.hello-world__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hello-world__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hello-world__label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.hello-world__input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+.hello-world__input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.hello-world__input::placeholder {
+  color: #999;
+}
+
+.hello-world__description {
+  font-size: 0.875rem;
+  color: #777;
+  font-style: italic;
+}
+
+.hello-world__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.hello-world__button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.hello-world__button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.hello-world__button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.hello-world__button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.hello-world__button--primary:active {
+  transform: translateY(0);
+}
+
+.hello-world__button--secondary {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.hello-world__button--secondary:hover {
+  background: #f5f5ff;
+  transform: translateY(-2px);
+}
+
+.hello-world__button--secondary:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .hello-world {
+    padding: 1rem;
+  }
+
+  .hello-world__container {
+    padding: 1.5rem;
+  }
+
+  .hello-world__actions {
+    flex-direction: column;
+  }
+
+  .hello-world__button {
+    width: 100%;
+  }
+}
