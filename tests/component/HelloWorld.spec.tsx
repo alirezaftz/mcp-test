@@ -24,14 +24,19 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Verify section with proper ARIA attributes
     const section = component.locator('section.hello-world');
+    await expect(section).toBeVisible();
     await expect(section).toHaveAttribute('role', 'region');
     await expect(section).toHaveAttribute('aria-label', 'Hello world page section');
 
     // Verify title is displayed
-    await expect(component.locator('.hello-world__title')).toHaveText('Hello World');
+    const title = component.locator('.hello-world__title');
+    await expect(title).toBeVisible();
+    await expect(title).toHaveText('Hello World');
 
     // Verify subtitle is displayed
-    await expect(component.locator('.hello-world__subtitle')).toHaveText('Enter your name below');
+    const subtitle = component.locator('.hello-world__subtitle');
+    await expect(subtitle).toBeVisible();
+    await expect(subtitle).toHaveText('Enter your name below');
 
     // Verify input exists with correct placeholder
     const input = component.locator('.hello-world__input');
@@ -48,13 +53,17 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     // Verify title is displayed
-    await expect(component.locator('.hello-world__title')).toHaveText('Hello World');
+    const title = component.locator('.hello-world__title');
+    await expect(title).toBeVisible();
+    await expect(title).toHaveText('Hello World');
 
     // Verify subtitle is not rendered
-    await expect(component.locator('.hello-world__subtitle')).not.toBeVisible();
+    const subtitle = component.locator('.hello-world__subtitle');
+    await expect(subtitle).not.toBeAttached();
 
     // Verify input still exists
-    await expect(component.locator('.hello-world__input')).toBeVisible();
+    const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
   });
 
   test('should handle text input and update value', async ({ mount }) => {
@@ -66,6 +75,7 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
 
     // Input should be empty initially
     await expect(input).toHaveValue('');
@@ -86,18 +96,26 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
+    
     const greeting = component.locator('.hello-world__greeting');
 
     // Greeting should not be visible initially
-    await expect(greeting).not.toBeVisible();
+    await expect(greeting).not.toBeAttached();
 
     // Type text into input
     await input.fill('Alice');
 
     // Greeting should now be visible with correct text
     await expect(greeting).toBeVisible();
-    await expect(component.locator('.hello-world__greeting-text')).toContainText('Hello,');
-    await expect(component.locator('.hello-world__greeting-name')).toHaveText('Alice');
+    
+    const greetingText = component.locator('.hello-world__greeting-text');
+    await expect(greetingText).toBeVisible();
+    await expect(greetingText).toContainText('Hello,');
+    
+    const greetingName = component.locator('.hello-world__greeting-name');
+    await expect(greetingName).toBeVisible();
+    await expect(greetingName).toHaveText('Alice');
   });
 
   test('should show and hide greeting dynamically', async ({ mount }) => {
@@ -109,20 +127,25 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
+    
     const greeting = component.locator('.hello-world__greeting');
 
     // Type text
     await input.fill('Bob');
     await expect(greeting).toBeVisible();
 
-    // Clear text by selecting all and deleting
+    // Clear text
     await input.clear();
-    await expect(greeting).not.toBeVisible();
+    await expect(greeting).not.toBeAttached();
 
     // Type again
     await input.fill('Charlie');
     await expect(greeting).toBeVisible();
-    await expect(component.locator('.hello-world__greeting-name')).toHaveText('Charlie');
+    
+    const greetingName = component.locator('.hello-world__greeting-name');
+    await expect(greetingName).toBeVisible();
+    await expect(greetingName).toHaveText('Charlie');
   });
 
   test('should display clear button when text is entered', async ({ mount }) => {
@@ -134,10 +157,12 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
+    
     const clearButton = component.locator('.hello-world__clear-button');
 
     // Clear button should not be visible initially
-    await expect(clearButton).not.toBeVisible();
+    await expect(clearButton).not.toBeAttached();
 
     // Type text into input
     await input.fill('David');
@@ -156,6 +181,8 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
+    
     const clearButton = component.locator('.hello-world__clear-button');
 
     // Type text
@@ -170,10 +197,11 @@ test.describe('HelloWorld Component Tests', () => {
     await expect(input).toHaveValue('');
 
     // Clear button should be hidden
-    await expect(clearButton).not.toBeVisible();
+    await expect(clearButton).not.toBeAttached();
 
     // Greeting should be hidden
-    await expect(component.locator('.hello-world__greeting')).not.toBeVisible();
+    const greeting = component.locator('.hello-world__greeting');
+    await expect(greeting).not.toBeAttached();
   });
 
   test('should have proper accessibility attributes', async ({ mount }) => {
@@ -188,7 +216,7 @@ test.describe('HelloWorld Component Tests', () => {
     // Check section has role and aria-label
     const section = component.locator('section[role="region"]');
     await expect(section).toBeVisible();
-    await expect(section).toHaveAttribute('aria-label');
+    await expect(section).toHaveAttribute('aria-label', 'Hello world page section');
 
     // Check input has proper attributes
     const input = component.locator('input#hello-input');
@@ -223,7 +251,9 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const section = component.locator('section.hello-world');
+    await expect(section).toBeVisible();
     await expect(section).toHaveClass(/custom-class/);
+    await expect(section).toHaveClass(/hello-world/);
   });
 
   test('should handle rapid input changes', async ({ mount }) => {
@@ -235,10 +265,13 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
+    
     const greetingName = component.locator('.hello-world__greeting-name');
 
     // Rapidly change input values
     await input.fill('A');
+    await expect(greetingName).toBeVisible();
     await expect(greetingName).toHaveText('A');
 
     await input.fill('AB');
@@ -260,6 +293,8 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
+    
     const greetingName = component.locator('.hello-world__greeting-name');
 
     // Test with special characters
@@ -274,6 +309,7 @@ test.describe('HelloWorld Component Tests', () => {
 
     for (const testString of testStrings) {
       await input.fill(testString);
+      await expect(greetingName).toBeVisible();
       await expect(greetingName).toHaveText(testString);
     }
   });
@@ -284,6 +320,7 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
     await expect(input).toHaveAttribute('placeholder', 'Enter text...');
   });
 
@@ -304,10 +341,13 @@ test.describe('HelloWorld Component Tests', () => {
     await expect(component.locator('.hello-world__content')).toBeVisible();
     await expect(component.locator('.hello-world__input-group')).toBeVisible();
     await expect(component.locator('.hello-world__label')).toBeVisible();
-    await expect(component.locator('.hello-world__input')).toBeVisible();
+    
+    const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
 
     // Type to show greeting elements
-    await component.locator('.hello-world__input').fill('Test');
+    await input.fill('Test');
+    
     await expect(component.locator('.hello-world__greeting')).toBeVisible();
     await expect(component.locator('.hello-world__greeting-text')).toBeVisible();
     await expect(component.locator('.hello-world__greeting-name')).toBeVisible();
