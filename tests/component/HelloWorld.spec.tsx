@@ -6,7 +6,9 @@ test.describe('HelloWorld Component Tests', () => {
     const component = await mount(<HelloWorld />);
 
     // Verify the default greeting is displayed
-    await expect(component.locator('.hello-world__title')).toHaveText('Hello, World!');
+    const title = component.locator('.hello-world__title');
+    await expect(title).toBeVisible();
+    await expect(title).toHaveText('Hello, World!');
   });
 
   test('should render with custom initial greeting', async ({ mount }) => {
@@ -15,14 +17,17 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     // Verify the custom greeting is displayed
-    await expect(component.locator('.hello-world__title')).toHaveText('Welcome, Friend!');
+    const title = component.locator('.hello-world__title');
+    await expect(title).toBeVisible();
+    await expect(title).toHaveText('Welcome, Friend!');
   });
 
   test('should have proper semantic HTML structure', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
     // Verify main element with role
-    await expect(component.locator('main[role="main"]')).toBeVisible();
+    const main = component.locator('main[role="main"]');
+    await expect(main).toBeVisible();
 
     // Verify section with proper ARIA attributes
     const section = component.locator('section.hello-world__content');
@@ -73,6 +78,7 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const input = component.locator('.hello-world__input');
+    await expect(input).toBeVisible();
     await expect(input).toHaveAttribute('placeholder', 'Type here...');
   });
 
@@ -97,6 +103,7 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const label = component.locator('.hello-world__label');
+    await expect(label).toBeVisible();
     await expect(label).toHaveText('Full Name');
   });
 
@@ -107,13 +114,14 @@ test.describe('HelloWorld Component Tests', () => {
     const title = component.locator('.hello-world__title');
 
     // Initially shows default greeting
+    await expect(title).toBeVisible();
     await expect(title).toHaveText('Hello, World!');
 
     // Type a name
     await input.fill('Alice');
-
-    // Greeting should update to personalized message
-    await expect(title).toHaveText('Hello, Alice!');
+    
+    // Wait for the state update to complete
+    await expect(title).toHaveText('Hello, Alice!', { timeout: 5000 });
   });
 
   test('should reset to default greeting when input is cleared', async ({ mount }) => {
@@ -124,13 +132,16 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Type a name
     await input.fill('Bob');
-    await expect(title).toHaveText('Hello, Bob!');
+    await expect(title).toHaveText('Hello, Bob!', { timeout: 5000 });
 
     // Clear the input
     await input.clear();
+    
+    // Wait a moment for state to update after clearing
+    await component.page().waitForTimeout(100);
 
     // Greeting should reset to default
-    await expect(title).toHaveText('Hello, World!');
+    await expect(title).toHaveText('Hello, World!', { timeout: 5000 });
   });
 
   test('should handle input with whitespace correctly', async ({ mount }) => {
@@ -141,13 +152,16 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Type only spaces
     await input.fill('   ');
+    
+    // Wait for state update
+    await component.page().waitForTimeout(100);
 
     // Greeting should remain default
-    await expect(title).toHaveText('Hello, World!');
+    await expect(title).toHaveText('Hello, World!', { timeout: 5000 });
 
     // Type valid input
     await input.fill('Charlie');
-    await expect(title).toHaveText('Hello, Charlie!');
+    await expect(title).toHaveText('Hello, Charlie!', { timeout: 5000 });
   });
 
   test('should be keyboard accessible', async ({ mount }) => {
@@ -163,10 +177,13 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Type using keyboard
     await input.pressSequentially('David');
+    
+    // Wait for state updates to complete
+    await component.page().waitForTimeout(100);
 
     // Verify the greeting updated
     const title = component.locator('.hello-world__title');
-    await expect(title).toHaveText('Hello, David!');
+    await expect(title).toHaveText('Hello, David!', { timeout: 5000 });
   });
 
   test('should have input description text', async ({ mount }) => {
@@ -187,10 +204,15 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Fill input and submit form
     await input.fill('Eve');
+    await expect(input).toHaveValue('Eve');
+    
     await form.evaluate((formElement) => {
       const event = new Event('submit', { bubbles: true, cancelable: true });
       formElement.dispatchEvent(event);
     });
+
+    // Wait a moment to ensure no navigation occurred
+    await component.page().waitForTimeout(100);
 
     // Verify the page didn't navigate (greeting still visible)
     const title = component.locator('.hello-world__title');
@@ -203,21 +225,28 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Check main element accessibility
     const main = component.locator('main.hello-world');
+    await expect(main).toBeVisible();
     await expect(main).toHaveAttribute('role', 'main');
 
     // Check section accessibility
     const section = component.locator('section.hello-world__content');
+    await expect(section).toBeVisible();
     await expect(section).toHaveAttribute('role', 'region');
-    await expect(section).toHaveAttribute('aria-label');
+    const ariaLabel = await section.getAttribute('aria-label');
+    expect(ariaLabel).toBeTruthy();
 
     // Check form accessibility
     const form = component.locator('form.hello-world__form');
-    await expect(form).toHaveAttribute('aria-label');
+    await expect(form).toBeVisible();
+    const formAriaLabel = await form.getAttribute('aria-label');
+    expect(formAriaLabel).toBeTruthy();
 
     // Check input accessibility
     const input = component.locator('.hello-world__input');
-    await expect(input).toHaveAttribute('aria-label');
-    await expect(input).toHaveAttribute('aria-describedby');
+    await expect(input).toBeVisible();
+    const inputAriaLabel = await input.getAttribute('aria-label');
+    expect(inputAriaLabel).toBeTruthy();
+    await expect(input).toHaveAttribute('aria-describedby', 'input-description');
   });
 
   test('should handle multiple rapid input changes', async ({ mount }) => {
@@ -232,8 +261,11 @@ test.describe('HelloWorld Component Tests', () => {
     await input.fill('Ali');
     await input.fill('Alic');
     await input.fill('Alice');
+    
+    // Wait for final state update
+    await component.page().waitForTimeout(100);
 
     // Final greeting should reflect last input
-    await expect(title).toHaveText('Hello, Alice!');
+    await expect(title).toHaveText('Hello, Alice!', { timeout: 5000 });
   });
 });
