@@ -1,0 +1,205 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+/* App container */
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+/* HelloWorld component */
+.hello-world {
+  width: 100%;
+  max-width: 600px;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.hello-world__container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: clamp(2rem, 5vw, 3rem);
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header section */
+.hello-world__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hello-world__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.hello-world__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: #666;
+  font-weight: 400;
+}
+
+/* Content section */
+.hello-world__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Input group */
+.hello-world__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hello-world__label {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.hello-world__input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.hello-world__input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.hello-world__input::placeholder {
+  color: #999;
+}
+
+.hello-world__clear-button {
+  align-self: flex-start;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  color: white;
+  background: #667eea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.hello-world__clear-button:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.hello-world__clear-button:active {
+  transform: translateY(0);
+}
+
+/* Greeting section */
+.hello-world__greeting {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hello-world__greeting-text {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  color: white;
+  text-align: center;
+  font-weight: 400;
+}
+
+.hello-world__greeting-name {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+  text-underline-offset: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .hello-world__container {
+    padding: 1.5rem;
+  }
+  
+  .hello-world__title {
+    font-size: 1.75rem;
+  }
+  
+  .hello-world__subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .hello-world__container,
+  .hello-world__greeting {
+    animation: none;
+  }
+  
+  .hello-world__clear-button:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .hello-world__input {
+    border-width: 3px;
+  }
+  
+  .hello-world__input:focus {
+    border-color: #000;
+  }
+}
