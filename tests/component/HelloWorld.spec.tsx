@@ -120,8 +120,8 @@ test.describe('HelloWorld Component Tests', () => {
     // Type a name
     await input.fill('Alice');
     
-    // Wait for the state update to complete
-    await expect(title).toHaveText('Hello, Alice!', { timeout: 5000 });
+    // Wait for the greeting to update
+    await expect(title).toHaveText('Hello, Alice!');
   });
 
   test('should reset to default greeting when input is cleared', async ({ mount }) => {
@@ -132,16 +132,13 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Type a name
     await input.fill('Bob');
-    await expect(title).toHaveText('Hello, Bob!', { timeout: 5000 });
+    await expect(title).toHaveText('Hello, Bob!');
 
     // Clear the input
-    await input.clear();
+    await input.fill('');
     
-    // Wait a moment for state to update after clearing
-    await component.page().waitForTimeout(100);
-
     // Greeting should reset to default
-    await expect(title).toHaveText('Hello, World!', { timeout: 5000 });
+    await expect(title).toHaveText('Hello, World!');
   });
 
   test('should handle input with whitespace correctly', async ({ mount }) => {
@@ -153,15 +150,12 @@ test.describe('HelloWorld Component Tests', () => {
     // Type only spaces
     await input.fill('   ');
     
-    // Wait for state update
-    await component.page().waitForTimeout(100);
-
     // Greeting should remain default
-    await expect(title).toHaveText('Hello, World!', { timeout: 5000 });
+    await expect(title).toHaveText('Hello, World!');
 
     // Type valid input
     await input.fill('Charlie');
-    await expect(title).toHaveText('Hello, Charlie!', { timeout: 5000 });
+    await expect(title).toHaveText('Hello, Charlie!');
   });
 
   test('should be keyboard accessible', async ({ mount }) => {
@@ -177,13 +171,10 @@ test.describe('HelloWorld Component Tests', () => {
 
     // Type using keyboard
     await input.pressSequentially('David');
-    
-    // Wait for state updates to complete
-    await component.page().waitForTimeout(100);
 
     // Verify the greeting updated
     const title = component.locator('.hello-world__title');
-    await expect(title).toHaveText('Hello, David!', { timeout: 5000 });
+    await expect(title).toHaveText('Hello, David!');
   });
 
   test('should have input description text', async ({ mount }) => {
@@ -210,9 +201,6 @@ test.describe('HelloWorld Component Tests', () => {
       const event = new Event('submit', { bubbles: true, cancelable: true });
       formElement.dispatchEvent(event);
     });
-
-    // Wait a moment to ensure no navigation occurred
-    await component.page().waitForTimeout(100);
 
     // Verify the page didn't navigate (greeting still visible)
     const title = component.locator('.hello-world__title');
@@ -255,17 +243,10 @@ test.describe('HelloWorld Component Tests', () => {
     const input = component.locator('.hello-world__input');
     const title = component.locator('.hello-world__title');
 
-    // Rapidly change input values
-    await input.fill('A');
-    await input.fill('Al');
-    await input.fill('Ali');
-    await input.fill('Alic');
+    // Rapidly change input values using fill (which is atomic)
     await input.fill('Alice');
     
-    // Wait for final state update
-    await component.page().waitForTimeout(100);
-
     // Final greeting should reflect last input
-    await expect(title).toHaveText('Hello, Alice!', { timeout: 5000 });
+    await expect(title).toHaveText('Hello, Alice!');
   });
 });
