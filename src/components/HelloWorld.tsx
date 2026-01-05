@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
 /**
  * Props interface for HelloWorld component
  */
 export interface HelloWorldProps {
   /** Main greeting message to display */
-  message: string;
+  message: string
   /** Optional subtitle text */
-  subtitle?: string;
+  subtitle?: string
 }
 
 /**
@@ -38,5 +38,5 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({ message, subtitle }) => 
         </button>
       </div>
     </section>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { HelloWorld } from './components/HelloWorld';
+import React from 'react'
+import { HelloWorld } from './components/HelloWorld'
 
 /**
  * Main application component
@@ -13,5 +13,5 @@ export const App: React.FC = () => {
         subtitle="Welcome to your first React + TypeScript application"
       />
     </main>
-  );
-};
+  )
+}
