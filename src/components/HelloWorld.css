@@ -1,0 +1,139 @@
+.hello-world {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.hello-world--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hello-world__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.hello-world__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #333;
+  text-align: center;
+  margin: 0;
+  font-weight: 700;
+}
+
+.hello-world__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.hello-world__label {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.hello-world__input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 0.5rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+.hello-world__input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.hello-world__input::placeholder {
+  color: #aaa;
+}
+
+.hello-world__greeting {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hello-world__greeting-text {
+  font-size: 1.25rem;
+  color: white;
+  text-align: center;
+  margin: 0;
+}
+
+.hello-world__greeting-name {
+  font-weight: 700;
+  color: #fff;
+}
+
+.hello-world__clear-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.hello-world__clear-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.hello-world__clear-button:active {
+  transform: translateY(0);
+}
+
+.hello-world__clear-button:focus-visible {
+  outline: 3px solid rgba(102, 126, 234, 0.5);
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .hello-world {
+    padding: 3rem;
+  }
+
+  .hello-world__title {
+    font-size: 3rem;
+  }
+
+  .hello-world__input {
+    font-size: 1.125rem;
+  }
+
+  .hello-world__greeting-text {
+    font-size: 1.5rem;
+  }
+}
