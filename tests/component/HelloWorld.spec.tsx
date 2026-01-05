@@ -11,8 +11,11 @@ test.describe('HelloWorld Component Tests', () => {
       />
     );
 
-    await expect(component.locator('role=region[name="Hello World section"]')).toBeVisible();
-    await expect(component.locator('.hello-world__title')).toHaveText('Hello World');
+    const section = component.locator('role=region[name="Hello World section"]');
+    await expect(section).toBeVisible();
+    const title = component.locator('.hello-world__title');
+    await expect(title).toBeVisible();
+    await expect(title).toHaveText('Hello World');
   });
 
   test('should render text input with correct attributes', async ({ mount }) => {
@@ -56,10 +59,15 @@ test.describe('HelloWorld Component Tests', () => {
 
     const input = component.locator('#name-input');
     await input.fill('Alice');
+    
+    // Wait for React state update to complete
+    await component.page().waitForTimeout(50);
 
     const greeting = component.locator('.hello-world__greeting');
     await expect(greeting).toBeVisible();
-    await expect(greeting.locator('.hello-world__greeting-text')).toContainText('Hello, Alice!');
+    const greetingText = greeting.locator('.hello-world__greeting-text');
+    await expect(greetingText).toBeVisible();
+    await expect(greetingText).toContainText('Hello, Alice!');
   });
 
   test('should not display greeting when input is empty', async ({ mount }) => {
@@ -72,7 +80,7 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const greeting = component.locator('.hello-world__greeting');
-    await expect(greeting).not.toBeVisible();
+    await expect(greeting).toHaveCount(0);
   });
 
   test('should display clear button when input has value', async ({ mount }) => {
@@ -87,9 +95,14 @@ test.describe('HelloWorld Component Tests', () => {
     const input = component.locator('#name-input');
     const clearButton = component.locator('role=button[name="Clear input field"]');
 
-    await expect(clearButton).not.toBeVisible();
+    // Initially button should not exist
+    await expect(clearButton).toHaveCount(0);
 
     await input.fill('Bob');
+    
+    // Wait for React state update
+    await component.page().waitForTimeout(50);
+    
     await expect(clearButton).toBeVisible();
   });
 
@@ -106,8 +119,14 @@ test.describe('HelloWorld Component Tests', () => {
     await input.fill('Charlie');
     await expect(input).toHaveValue('Charlie');
 
+    // Wait for button to appear
+    await component.page().waitForTimeout(50);
+
     const clearButton = component.locator('role=button[name="Clear input field"]');
     await clearButton.click();
+
+    // Wait for state update
+    await component.page().waitForTimeout(50);
 
     await expect(input).toHaveValue('');
   });
@@ -124,6 +143,9 @@ test.describe('HelloWorld Component Tests', () => {
     const input = component.locator('#name-input');
     await input.fill('Diana');
 
+    // Wait for elements to appear
+    await component.page().waitForTimeout(50);
+
     const greeting = component.locator('.hello-world__greeting');
     const clearButton = component.locator('role=button[name="Clear input field"]');
 
@@ -132,8 +154,11 @@ test.describe('HelloWorld Component Tests', () => {
 
     await clearButton.click();
 
-    await expect(greeting).not.toBeVisible();
-    await expect(clearButton).not.toBeVisible();
+    // Wait for state update
+    await component.page().waitForTimeout(50);
+
+    await expect(greeting).toHaveCount(0);
+    await expect(clearButton).toHaveCount(0);
   });
 
   test('should render with initial value prop', async ({ mount }) => {
@@ -150,7 +175,8 @@ test.describe('HelloWorld Component Tests', () => {
 
     const greeting = component.locator('.hello-world__greeting');
     await expect(greeting).toBeVisible();
-    await expect(greeting.locator('.hello-world__greeting-text')).toContainText('Hello, Eve!');
+    const greetingText = greeting.locator('.hello-world__greeting-text');
+    await expect(greetingText).toContainText('Hello, Eve!');
   });
 
   test('should have proper accessibility attributes', async ({ mount }) => {
@@ -186,7 +212,11 @@ test.describe('HelloWorld Component Tests', () => {
     const input = component.locator('#name-input');
     await input.fill('Frank');
 
+    // Wait for greeting to appear
+    await component.page().waitForTimeout(50);
+
     const greetingContainer = component.locator('.hello-world__greeting');
+    await expect(greetingContainer).toBeVisible();
     await expect(greetingContainer).toHaveAttribute('role', 'status');
     await expect(greetingContainer).toHaveAttribute('aria-live', 'polite');
   });
@@ -201,7 +231,11 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const section = component.locator('section.hello-world');
-    await expect(section).toHaveClass(/hello-world--visible/, { timeout: 1000 });
+    
+    // Wait for the animation class to be applied (useEffect with 10ms delay)
+    await component.page().waitForTimeout(100);
+    
+    await expect(section).toHaveClass(/hello-world--visible/);
   });
 
   test('should handle keyboard navigation for input', async ({ mount, page }) => {
@@ -228,9 +262,16 @@ test.describe('HelloWorld Component Tests', () => {
       />
     );
 
+    // Wait for component to fully render
+    await component.page().waitForTimeout(50);
+
     const clearButton = component.locator('role=button[name="Clear input field"]');
+    await expect(clearButton).toBeVisible();
     await clearButton.focus();
     await page.keyboard.press('Enter');
+
+    // Wait for state update
+    await component.page().waitForTimeout(50);
 
     const input = component.locator('#name-input');
     await expect(input).toHaveValue('');

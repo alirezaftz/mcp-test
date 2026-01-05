@@ -31,7 +31,11 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsVisible(true);
+    // Small delay to ensure component is mounted before applying animation class
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 10);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +48,7 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
 
   return (
     <section
-      className={`hello-world ${isVisible ? 'hello-world--visible' : ''} ${className}`}
+      className={`hello-world ${isVisible ? 'hello-world--visible' : ''} ${className}`.trim()}
       role="region"
       aria-label="Hello World section"
     >
@@ -79,6 +83,7 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
             className="hello-world__clear-button"
             onClick={handleClearClick}
             aria-label="Clear input field"
+            role="button"
           >
             Clear
           </button>
