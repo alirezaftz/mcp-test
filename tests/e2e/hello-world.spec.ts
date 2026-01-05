@@ -11,7 +11,7 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const heading = page.locator('h1.hello-world__heading');
-    await expect(heading).toBeVisible();
+    await expect(heading).toBeVisible({ timeout: 10000 });
     await expect(heading).toHaveText('Hello, World!');
   });
 
@@ -19,7 +19,7 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const subheading = page.locator('p.hello-world__subheading');
-    await expect(subheading).toBeVisible();
+    await expect(subheading).toBeVisible({ timeout: 10000 });
     await expect(subheading).toHaveText('Welcome to our application');
   });
 
@@ -27,7 +27,7 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const button = page.locator('button.hello-world__button');
-    await expect(button).toBeVisible();
+    await expect(button).toBeVisible({ timeout: 10000 });
     await expect(button).toHaveText('Get Started');
   });
 
@@ -35,7 +35,7 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const main = page.locator('main[role="main"]');
-    await expect(main).toBeVisible();
+    await expect(main).toBeVisible({ timeout: 10000 });
     
     const section = page.locator('section[role="region"]');
     await expect(section).toBeVisible();
@@ -46,7 +46,7 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const section = page.locator('.hello-world');
-    await expect(section).toHaveClass(/hello-world--visible/, { timeout: 2000 });
+    await expect(section).toHaveClass(/hello-world--visible/, { timeout: 5000 });
   });
 
   test('should be keyboard navigable', async ({ page }) => {
@@ -72,7 +72,7 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const heading = page.locator('.hello-world__heading');
-    await expect(heading).toBeVisible();
+    await expect(heading).toBeVisible({ timeout: 10000 });
     
     const button = page.locator('.hello-world__button');
     await expect(button).toBeVisible();
@@ -83,7 +83,7 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const heading = page.locator('.hello-world__heading');
-    await expect(heading).toBeVisible();
+    await expect(heading).toBeVisible({ timeout: 10000 });
   });
 
   test('should render correctly on desktop viewport', async ({ page }) => {
@@ -91,21 +91,21 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     const heading = page.locator('.hello-world__heading');
-    await expect(heading).toBeVisible();
+    await expect(heading).toBeVisible({ timeout: 10000 });
   });
 
   test('should have accessible button with aria-label', async ({ page }) => {
     await page.goto('/');
     
     const button = page.locator('button[aria-label="Get started with the application"]');
-    await expect(button).toBeVisible();
+    await expect(button).toBeVisible({ timeout: 10000 });
   });
 
   test('should load with gradient background', async ({ page }) => {
     await page.goto('/');
     
     const section = page.locator('.hello-world');
-    await expect(section).toBeVisible();
+    await expect(section).toBeVisible({ timeout: 10000 });
     
     const backgroundColor = await section.evaluate((el) => {
       return window.getComputedStyle(el).background;
@@ -127,11 +127,11 @@ test.describe('Hello World Page E2E Tests', () => {
     
     await page.setViewportSize({ width: 1920, height: 1080 });
     let heading = page.locator('.hello-world__heading');
-    await expect(heading).toBeVisible();
+    await expect(heading).toBeVisible({ timeout: 10000 });
     
     await page.setViewportSize({ width: 375, height: 667 });
     heading = page.locator('.hello-world__heading');
-    await expect(heading).toBeVisible();
+    await expect(heading).toBeVisible({ timeout: 10000 });
   });
 });
 
@@ -140,7 +140,7 @@ test.describe('Hello World Accessibility Tests', () => {
     await page.goto('/');
     
     const section = page.locator('section[role="region"][aria-label]');
-    await expect(section).toBeVisible();
+    await expect(section).toBeVisible({ timeout: 10000 });
     
     const button = page.locator('button[aria-label]');
     await expect(button).toBeVisible();

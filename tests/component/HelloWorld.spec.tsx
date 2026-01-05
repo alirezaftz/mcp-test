@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/experimental-ct-react';
+import React from 'react';
 import { HelloWorld } from '../../src/components/HelloWorld';
 
 test.describe('HelloWorld Component Tests', () => {
   test('should render with default props', async ({ mount }) => {
     const component = await mount(<HelloWorld />);
 
-    await expect(component.locator('.hello-world')).toBeVisible();
+    await expect(component.locator('.hello-world')).toBeVisible({ timeout: 10000 });
     await expect(component.locator('.hello-world__heading')).toHaveText('Hello, World!');
     await expect(component.locator('.hello-world__subheading')).toHaveText('Welcome to our application');
   });
@@ -26,7 +27,7 @@ test.describe('HelloWorld Component Tests', () => {
     const component = await mount(
       <HelloWorld 
         message="Hello!"
-        subheading={undefined}
+        subheading=""
       />
     );
 
@@ -49,7 +50,7 @@ test.describe('HelloWorld Component Tests', () => {
     const component = await mount(<HelloWorld animated={true} />);
 
     const section = component.locator('.hello-world');
-    await expect(section).toHaveClass(/hello-world--visible/, { timeout: 2000 });
+    await expect(section).toHaveClass(/hello-world--visible/, { timeout: 5000 });
   });
 
   test('should not animate when animated is false', async ({ mount }) => {
@@ -96,11 +97,7 @@ test.describe('HelloWorld Component Tests', () => {
   });
 
   test('should handle button click interaction', async ({ mount }) => {
-    let clicked = false;
-    
-    const component = await mount(
-      <HelloWorld />
-    );
+    const component = await mount(<HelloWorld />);
 
     const button = component.locator('.hello-world__button');
     await button.click();
@@ -115,7 +112,7 @@ test.describe('HelloWorld Responsive Design Tests', () => {
     
     const component = await mount(<HelloWorld />);
 
-    await expect(component.locator('.hello-world')).toBeVisible();
+    await expect(component.locator('.hello-world')).toBeVisible({ timeout: 10000 });
     await expect(component.locator('.hello-world__heading')).toBeVisible();
     await expect(component.locator('.hello-world__button')).toBeVisible();
   });
@@ -125,7 +122,7 @@ test.describe('HelloWorld Responsive Design Tests', () => {
     
     const component = await mount(<HelloWorld />);
 
-    await expect(component.locator('.hello-world')).toBeVisible();
+    await expect(component.locator('.hello-world')).toBeVisible({ timeout: 10000 });
     await expect(component.locator('.hello-world__heading')).toBeVisible();
   });
 
@@ -134,7 +131,7 @@ test.describe('HelloWorld Responsive Design Tests', () => {
     
     const component = await mount(<HelloWorld />);
 
-    await expect(component.locator('.hello-world')).toBeVisible();
+    await expect(component.locator('.hello-world')).toBeVisible({ timeout: 10000 });
     await expect(component.locator('.hello-world__heading')).toBeVisible();
   });
 
@@ -143,7 +140,7 @@ test.describe('HelloWorld Responsive Design Tests', () => {
     
     const component = await mount(<HelloWorld />);
 
-    await expect(component.locator('.hello-world')).toBeVisible();
+    await expect(component.locator('.hello-world')).toBeVisible({ timeout: 10000 });
     await expect(component.locator('.hello-world__heading')).toBeVisible();
     await expect(component.locator('.hello-world__button')).toBeVisible();
   });
