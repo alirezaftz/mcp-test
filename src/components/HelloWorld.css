@@ -63,7 +63,19 @@
   outline-offset: 2px;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for all required viewport sizes */
+@media (min-width: 320px) {
+  .hello-world {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 375px) {
+  .hello-world {
+    padding: 2rem;
+  }
+}
+
 @media (min-width: 768px) {
   .hello-world__content {
     padding: 3rem 4rem;
@@ -73,5 +85,17 @@
 @media (min-width: 1024px) {
   .hello-world__content {
     padding: 4rem 5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hello-world {
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .hello-world {
+    max-width: 1000px;
   }
 }

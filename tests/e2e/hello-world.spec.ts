@@ -5,13 +5,13 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     await expect(page).toHaveTitle('Hello World');
-    await expect(page.locator('role=main[name="Main application"]')).toBeVisible();
+    await expect(page.getByRole('main', { name: 'Main application' })).toBeVisible();
   });
 
   test('should display hello world message', async ({ page }) => {
     await page.goto('/');
     
-    const heading = page.locator('.hello-world__heading');
+    const heading = page.getByTestId('hello-world-heading');
     await expect(heading).toBeVisible();
     await expect(heading).toHaveText('Hello World');
   });
@@ -19,7 +19,7 @@ test.describe('Hello World Page E2E Tests', () => {
   test('should display subtitle', async ({ page }) => {
     await page.goto('/');
     
-    const subtitle = page.locator('.hello-world__subtitle');
+    const subtitle = page.getByTestId('hello-world-subtitle');
     await expect(subtitle).toBeVisible();
     await expect(subtitle).toContainText('Welcome to your first React + TypeScript application');
   });
@@ -27,7 +27,7 @@ test.describe('Hello World Page E2E Tests', () => {
   test('should have interactive button', async ({ page }) => {
     await page.goto('/');
     
-    const button = page.locator('role=button[name="Get started with the application"]');
+    const button = page.getByRole('button', { name: 'Get started with the application' });
     await expect(button).toBeVisible();
     await expect(button).toBeEnabled();
     await expect(button).toHaveText('Get Started');
@@ -42,7 +42,7 @@ test.describe('Hello World Page E2E Tests', () => {
       await dialog.accept();
     });
 
-    const button = page.locator('.hello-world__button');
+    const button = page.getByTestId('hello-world-button');
     await button.click();
   });
 
@@ -51,13 +51,17 @@ test.describe('Hello World Page E2E Tests', () => {
     
     await expect(page.locator('main.app')).toBeVisible();
     await expect(page.locator('section.hello-world')).toBeVisible();
-    await expect(page.locator('.hello-world__content')).toBeVisible();
+    await expect(page.getByTestId('hello-world-content')).toBeVisible();
   });
 
   test('should apply animation class after load', async ({ page }) => {
     await page.goto('/');
     
     const section = page.locator('.hello-world');
+    
+    // Wait for animation to trigger
+    await page.waitForTimeout(50);
+    
     await expect(section).toHaveClass(/hello-world--visible/);
   });
 
@@ -65,56 +69,94 @@ test.describe('Hello World Page E2E Tests', () => {
     await page.goto('/');
     
     await page.keyboard.press('Tab');
-    const button = page.locator('.hello-world__button');
+    const button = page.getByTestId('hello-world-button');
     await expect(button).toBeFocused();
+    
+    page.on('dialog', async dialog => {
+      await dialog.accept();
+    });
     
     await page.keyboard.press('Enter');
   });
 
-  test('should be responsive on mobile viewport', async ({ page }) => {
+  test('should be responsive on mobile viewport 320px', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.goto('/');
+    
+    const heading = page.getByTestId('hello-world-heading');
+    await expect(heading).toBeVisible();
+    
+    const content = page.getByTestId('hello-world-content');
+    await expect(content).toBeVisible();
+  });
+
+  test('should be responsive on mobile viewport 375px', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
     
-    const heading = page.locator('.hello-world__heading');
+    const heading = page.getByTestId('hello-world-heading');
     await expect(heading).toBeVisible();
     
-    const content = page.locator('.hello-world__content');
+    const content = page.getByTestId('hello-world-content');
     await expect(content).toBeVisible();
   });
 
-  test('should be responsive on tablet viewport', async ({ page }) => {
+  test('should be responsive on tablet viewport 768px', async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.goto('/');
     
-    const heading = page.locator('.hello-world__heading');
+    const heading = page.getByTestId('hello-world-heading');
     await expect(heading).toBeVisible();
     
-    const content = page.locator('.hello-world__content');
+    const content = page.getByTestId('hello-world-content');
     await expect(content).toBeVisible();
   });
 
-  test('should be responsive on desktop viewport', async ({ page }) => {
+  test('should be responsive on desktop viewport 1024px', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await page.goto('/');
+    
+    const heading = page.getByTestId('hello-world-heading');
+    await expect(heading).toBeVisible();
+    
+    const content = page.getByTestId('hello-world-content');
+    await expect(content).toBeVisible();
+  });
+
+  test('should be responsive on desktop viewport 1440px', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
     
-    const heading = page.locator('.hello-world__heading');
+    const heading = page.getByTestId('hello-world-heading');
     await expect(heading).toBeVisible();
     
-    const content = page.locator('.hello-world__content');
+    const content = page.getByTestId('hello-world-content');
+    await expect(content).toBeVisible();
+  });
+
+  test('should be responsive on desktop viewport 1920px', async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.goto('/');
+    
+    const heading = page.getByTestId('hello-world-heading');
+    await expect(heading).toBeVisible();
+    
+    const content = page.getByTestId('hello-world-content');
     await expect(content).toBeVisible();
   });
 
   test('should meet accessibility standards', async ({ page }) => {
     await page.goto('/');
     
-    const section = page.locator('section');
+    const section = page.getByTestId('hello-world-section');
     await expect(section).toHaveAttribute('role', 'region');
     await expect(section).toHaveAttribute('aria-label');
     
-    const button = page.locator('button');
+    const button = page.getByTestId('hello-world-button');
     await expect(button).toHaveAttribute('aria-label');
+    await expect(button).toHaveAttribute('role', 'button');
     
-    const main = page.locator('main');
+    const main = page.getByRole('main');
     await expect(main).toHaveAttribute('role', 'main');
   });
 });

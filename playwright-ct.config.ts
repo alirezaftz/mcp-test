@@ -10,6 +10,13 @@ export default defineConfig({
   use: {
     trace: 'on-first-retry',
     ctPort: 3100,
+    ctViteConfig: {
+      resolve: {
+        alias: {
+          '@': '/src'
+        }
+      }
+    }
   },
   projects: [
     {

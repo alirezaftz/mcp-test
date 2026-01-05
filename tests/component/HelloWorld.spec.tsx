@@ -7,8 +7,8 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld message="Hello World" />
     );
 
-    await expect(component.locator('role=region[name="Hello world greeting section"]')).toBeVisible();
-    await expect(component.locator('.hello-world__heading')).toHaveText('Hello World');
+    await expect(component.getByTestId('hello-world-section')).toBeVisible();
+    await expect(component.getByTestId('hello-world-heading')).toHaveText('Hello World');
   });
 
   test('should render with message and subtitle', async ({ mount }) => {
@@ -19,8 +19,8 @@ test.describe('HelloWorld Component Tests', () => {
       />
     );
 
-    await expect(component.locator('.hello-world__heading')).toHaveText('Hello World');
-    await expect(component.locator('.hello-world__subtitle')).toHaveText('Welcome to your first React + TypeScript application');
+    await expect(component.getByTestId('hello-world-heading')).toHaveText('Hello World');
+    await expect(component.getByTestId('hello-world-subtitle')).toHaveText('Welcome to your first React + TypeScript application');
   });
 
   test('should not render subtitle when not provided', async ({ mount }) => {
@@ -28,7 +28,8 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld message="Hello World" />
     );
 
-    await expect(component.locator('.hello-world__subtitle')).not.toBeVisible();
+    const subtitle = component.locator('[data-testid="hello-world-subtitle"]');
+    await expect(subtitle).not.toBeVisible();
   });
 
   test('should have proper BEM class naming', async ({ mount }) => {
@@ -49,6 +50,10 @@ test.describe('HelloWorld Component Tests', () => {
     );
 
     const section = component.locator('.hello-world');
+    
+    // Wait for animation to trigger
+    await component.page().waitForTimeout(50);
+    
     await expect(section).toHaveClass(/hello-world--visible/);
   });
 
@@ -57,7 +62,7 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld message="Hello World" />
     );
 
-    const button = component.locator('role=button[name="Get started with the application"]');
+    const button = component.getByRole('button', { name: 'Get started with the application' });
     await expect(button).toBeVisible();
     await expect(button).toHaveText('Get Started');
     await expect(button).toHaveAttribute('aria-label', 'Get started with the application');
@@ -68,9 +73,8 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld message="Hello World" subtitle="Test subtitle" />
     );
 
-    await expect(component.locator('section[role="region"]')).toBeVisible();
-    await expect(component.locator('section[aria-label="Hello world greeting section"]')).toBeVisible();
-    await expect(component.locator('h1[role="heading"]')).toBeVisible();
+    await expect(component.getByRole('region', { name: 'Hello world greeting section' })).toBeVisible();
+    await expect(component.getByRole('heading', { level: 1 })).toBeVisible();
   });
 
   test('should accept custom className prop', async ({ mount }) => {
@@ -82,12 +86,12 @@ test.describe('HelloWorld Component Tests', () => {
     await expect(section).toHaveClass(/custom-class/);
   });
 
-  test('should be keyboard accessible', async ({ mount }) => {
+  test('should be keyboard accessible', async ({ mount, page }) => {
     const component = await mount(
       <HelloWorld message="Hello World" />
     );
 
-    const button = component.locator('.hello-world__button');
+    const button = component.getByTestId('hello-world-button');
     await button.focus();
     await expect(button).toBeFocused();
   });
@@ -97,12 +101,78 @@ test.describe('HelloWorld Component Tests', () => {
       <HelloWorld message="Hello World" />
     );
 
-    const section = component.locator('section');
+    const section = component.getByTestId('hello-world-section');
     await expect(section).toHaveAttribute('role', 'region');
     await expect(section).toHaveAttribute('aria-label', 'Hello world greeting section');
 
-    const heading = component.locator('h1');
+    const heading = component.getByTestId('hello-world-heading');
     await expect(heading).toHaveAttribute('role', 'heading');
     await expect(heading).toHaveAttribute('aria-level', '1');
+  });
+
+  test('should render at mobile viewport 320px', async ({ mount, page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    
+    const component = await mount(
+      <HelloWorld message="Hello World" subtitle="Test" />
+    );
+
+    await expect(component.getByTestId('hello-world-section')).toBeVisible();
+    await expect(component.getByTestId('hello-world-heading')).toBeVisible();
+  });
+
+  test('should render at mobile viewport 375px', async ({ mount, page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    
+    const component = await mount(
+      <HelloWorld message="Hello World" subtitle="Test" />
+    );
+
+    await expect(component.getByTestId('hello-world-section')).toBeVisible();
+    await expect(component.getByTestId('hello-world-heading')).toBeVisible();
+  });
+
+  test('should render at tablet viewport 768px', async ({ mount, page }) => {
+    await page.setViewportSize({ width: 768, height: 1024 });
+    
+    const component = await mount(
+      <HelloWorld message="Hello World" subtitle="Test" />
+    );
+
+    await expect(component.getByTestId('hello-world-section')).toBeVisible();
+    await expect(component.getByTestId('hello-world-heading')).toBeVisible();
+  });
+
+  test('should render at desktop viewport 1024px', async ({ mount, page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 });
+    
+    const component = await mount(
+      <HelloWorld message="Hello World" subtitle="Test" />
+    );
+
+    await expect(component.getByTestId('hello-world-section')).toBeVisible();
+    await expect(component.getByTestId('hello-world-heading')).toBeVisible();
+  });
+
+  test('should render at desktop viewport 1440px', async ({ mount, page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    
+    const component = await mount(
+      <HelloWorld message="Hello World" subtitle="Test" />
+    );
+
+    await expect(component.getByTestId('hello-world-section')).toBeVisible();
+    await expect(component.getByTestId('hello-world-heading')).toBeVisible();
+  });
+
+  test('should render at desktop viewport 1920px', async ({ mount, page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    
+    const component = await mount(
+      <HelloWorld message="Hello World" subtitle="Test" />
+    );
+
+    await expect(component.getByTestId('hello-world-section')).toBeVisible();
+    await expect(component.getByTestId('hello-world-heading')).toBeVisible();
   });
 });
