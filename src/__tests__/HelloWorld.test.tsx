@@ -27,10 +27,10 @@ describe('HelloWorld Component', () => {
     });
 
     test('should not render message paragraph when message is not provided', () => {
-      render(<HelloWorld greeting="Hello" />);
+      const { container } = render(<HelloWorld greeting="Hello" />);
       
-      const paragraphs = screen.queryByRole('paragraph');
-      expect(paragraphs).not.toBeInTheDocument();
+      const messageParagraph = container.querySelector('.hello-world__message');
+      expect(messageParagraph).not.toBeInTheDocument();
     });
 
     test('should render Get Started button', () => {
@@ -154,10 +154,11 @@ describe('HelloWorld Component', () => {
     });
 
     test('should work without optional message prop', () => {
-      render(<HelloWorld greeting="Hello" />);
+      const { container } = render(<HelloWorld greeting="Hello" />);
       
       expect(screen.getByText('Hello')).toBeInTheDocument();
-      expect(screen.queryByRole('paragraph')).not.toBeInTheDocument();
+      const messageParagraph = container.querySelector('.hello-world__message');
+      expect(messageParagraph).not.toBeInTheDocument();
     });
   });
 
