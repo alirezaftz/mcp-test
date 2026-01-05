@@ -13,13 +13,16 @@ test.describe('App Component - Playwright Tests', () => {
     const component = await mount(<App />);
 
     await expect(component.locator('[data-testid="hello-world-section"]')).toBeVisible();
+    await expect(component.locator('h1')).toBeVisible();
     await expect(component.locator('h1')).toHaveText('Hello World');
   });
 
   test('should pass correct props to HelloWorld', async ({ mount }) => {
     const component = await mount(<App />);
 
+    await expect(component.locator('[data-testid="hello-world-heading"]')).toBeVisible();
     await expect(component.locator('[data-testid="hello-world-heading"]')).toHaveText('Hello World');
+    await expect(component.locator('[data-testid="hello-world-subtitle"]')).toBeVisible();
     await expect(component.locator('[data-testid="hello-world-subtitle"]')).toHaveText('Welcome to your first React TypeScript application');
   });
 

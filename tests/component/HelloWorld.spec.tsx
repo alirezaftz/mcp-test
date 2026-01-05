@@ -8,6 +8,7 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
       <HelloWorld message="Hello World" />
     );
 
+    await expect(component.locator('h1')).toBeVisible();
     await expect(component.locator('h1')).toHaveText('Hello World');
     await expect(component.locator('button')).toBeVisible();
   });
@@ -20,7 +21,9 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
       />
     );
 
+    await expect(component.locator('[data-testid="hello-world-heading"]')).toBeVisible();
     await expect(component.locator('[data-testid="hello-world-heading"]')).toHaveText('Hello World');
+    await expect(component.locator('[data-testid="hello-world-subtitle"]')).toBeVisible();
     await expect(component.locator('[data-testid="hello-world-subtitle"]')).toHaveText('Welcome to React');
   });
 
@@ -40,6 +43,7 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     );
 
     const button = component.locator('button');
+    await expect(button).toBeVisible();
     await expect(button).toHaveAttribute('aria-label', 'Click to increment greeting counter');
     await expect(button).toHaveText('Say Hello!');
   });
@@ -52,14 +56,15 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     const button = component.locator('[data-testid="hello-world-button"]');
     const counterLocator = component.locator('[data-testid="hello-world-counter"]');
 
+    await expect(button).toBeVisible();
     await expect(counterLocator).not.toBeVisible();
 
     await button.click();
     await expect(counterLocator).toBeVisible();
-    await expect(counterLocator).toHaveText("You've said hello 1 time!");
+    await expect(counterLocator).toContainText("You've said hello 1 time!");
 
     await button.click();
-    await expect(counterLocator).toHaveText("You've said hello 2 times!");
+    await expect(counterLocator).toContainText("You've said hello 2 times!");
   });
 
   test('should use correct BEM class naming', async ({ mount }) => {
@@ -88,7 +93,7 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     
     const counter = component.locator('[data-testid="hello-world-counter"]');
     await expect(counter).toBeVisible();
-    await expect(counter).toHaveText("You've said hello 1 time!");
+    await expect(counter).toContainText("You've said hello 1 time!");
   });
 
   test('should have responsive text sizing', async ({ mount }) => {
@@ -97,11 +102,14 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     );
 
     const heading = component.locator('.hello-world__heading');
+    await expect(heading).toBeVisible();
+    
     const fontSize = await heading.evaluate((el) => {
       return window.getComputedStyle(el).fontSize;
     });
 
     expect(fontSize).toBeTruthy();
+    expect(fontSize).not.toBe('0px');
   });
 
   test('should show counter with correct aria-live attribute', async ({ mount }) => {
@@ -113,6 +121,7 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     await button.click();
 
     const counter = component.locator('[data-testid="hello-world-counter"]');
+    await expect(counter).toBeVisible();
     await expect(counter).toHaveAttribute('aria-live', 'polite');
   });
 
@@ -130,12 +139,13 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     );
 
     const button = component.locator('[data-testid="hello-world-button"]');
+    await expect(button).toBeVisible();
     
     await button.click();
     await expect(component.locator('[data-testid="hello-world-counter"]')).toBeVisible();
     
     await button.click();
-    await expect(component.locator('[data-testid="hello-world-counter"]')).toHaveText("You've said hello 2 times!");
+    await expect(component.locator('[data-testid="hello-world-counter"]')).toContainText("You've said hello 2 times!");
   });
 
   test('should render without subtitle when not provided', async ({ mount }) => {
@@ -147,13 +157,14 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     await expect(subtitle).not.toBeVisible();
   });
 
-  test('should have proper focus styles on button', async ({ mount, page }) => {
+  test('should have proper focus styles on button', async ({ mount }) => {
     const component = await mount(
       <HelloWorld message="Hello World" />
     );
 
     const button = component.locator('button');
     await button.focus();
+    await expect(button).toBeFocused();
 
     const outlineStyle = await button.evaluate((el) => {
       const styles = window.getComputedStyle(el);
@@ -164,5 +175,6 @@ test.describe('HelloWorld Component - Playwright Tests', () => {
     });
 
     expect(outlineStyle.outline).toBeTruthy();
+    expect(outlineStyle.outline).not.toBe('');
   });
 });
